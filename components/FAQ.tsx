@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import AnimatedSection from "./AnimatedSection";
 
 const faqs = [
   {
@@ -39,50 +41,81 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="px-6 py-24">
+    <section id="faq" className="relative z-10 px-6 py-24">
       <div className="mx-auto max-w-3xl">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-muted">
-            Everything you need to know about credits and our services.
-          </p>
-        </div>
+        <AnimatedSection>
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-muted">
+              Everything you need to know about credits and our services.
+            </p>
+          </div>
+        </AnimatedSection>
 
         <div className="space-y-3">
           {faqs.map((faq, i) => (
-            <div
-              key={i}
-              className="rounded-xl border border-card-border bg-card"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="flex w-full items-center justify-between px-6 py-5 text-left"
+            <AnimatedSection key={i} delay={i * 0.06}>
+              <div
+                className={`overflow-hidden rounded-xl border transition-colors ${
+                  openIndex === i
+                    ? "border-accent/30 bg-card/80"
+                    : "border-card-border bg-card/50"
+                }`}
               >
-                <span className="font-medium">{faq.question}</span>
-                <svg
-                  className={`h-5 w-5 shrink-0 text-muted transition-transform ${
-                    openIndex === i ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
+                <div className="flex">
+                  {/* Left accent bar */}
+                  <div
+                    className={`w-1 shrink-0 transition-all duration-300 ${
+                      openIndex === i
+                        ? "bg-gradient-to-b from-accent to-purple-500"
+                        : "bg-transparent"
+                    }`}
                   />
-                </svg>
-              </button>
-              {openIndex === i && (
-                <div className="px-6 pb-5 text-sm leading-relaxed text-muted">
-                  {faq.answer}
+
+                  <div className="flex-1">
+                    <button
+                      onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                      className="flex w-full items-center justify-between px-6 py-5 text-left"
+                    >
+                      <span className="font-medium">{faq.question}</span>
+                      <motion.svg
+                        animate={{ rotate: openIndex === i ? 180 : 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="h-5 w-5 shrink-0 text-muted"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </motion.svg>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {openIndex === i && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-6 pb-5 text-sm leading-relaxed text-muted">
+                            {faq.answer}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
-              )}
-            </div>
+              </div>
+            </AnimatedSection>
           ))}
         </div>
       </div>

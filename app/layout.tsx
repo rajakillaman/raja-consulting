@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manrope = Manrope({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Raja Consulting — Tech & IT Consulting",
+  title: "Velvet Vow Systems | Wedding Pro Template Store",
   description:
-    "Premium tech consulting services delivered through a simple credit-based system. Website audits, security assessments, code reviews, and more.",
+    "One-time payment template store for wedding planners, photographers, and venues. Digital systems priced from $5 to $250.",
 };
 
 export default function RootLayout({
@@ -24,10 +25,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en">
+      <body className={`${cormorant.variable} ${manrope.variable} antialiased`}>
         {children}
       </body>
     </html>

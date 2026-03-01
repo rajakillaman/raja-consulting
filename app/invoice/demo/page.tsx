@@ -2,7 +2,7 @@
 
 export default function DemoInvoice() {
   return (
-    <div className="min-h-screen bg-white px-4 py-12 text-gray-900 print:px-0 print:py-0">
+    <div className="min-h-screen bg-white px-4 py-12 text-gray-900 print:px-0 print:py-0" style={{ colorAdjust: "exact", WebkitPrintColorAdjust: "exact", printColorAdjust: "exact" } as React.CSSProperties}>
       <div className="mx-auto max-w-3xl">
         {/* Print button — hidden when printing */}
         <button

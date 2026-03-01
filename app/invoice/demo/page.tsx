@@ -75,9 +75,8 @@ export default function DemoInvoice() {
               <thead>
                 <tr className="border-b border-gray-200 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
                   <th className="pb-3">Description</th>
-                  <th className="pb-3 text-center">Credits</th>
                   <th className="pb-3 text-center">Qty</th>
-                  <th className="pb-3 text-right">Amount</th>
+                  <th className="pb-3 text-right">Credits</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -88,9 +87,8 @@ export default function DemoInvoice() {
                       Full-stack vulnerability scan, penetration testing insights, remediation roadmap
                     </p>
                   </td>
-                  <td className="py-4 text-center text-gray-500">10</td>
                   <td className="py-4 text-center text-gray-500">1</td>
-                  <td className="py-4 text-right font-medium">$8.30</td>
+                  <td className="py-4 text-right font-medium">10</td>
                 </tr>
                 <tr>
                   <td className="py-4">
@@ -99,9 +97,8 @@ export default function DemoInvoice() {
                       Core Web Vitals analysis, load time optimization, Lighthouse review
                     </p>
                   </td>
-                  <td className="py-4 text-center text-gray-500">5</td>
                   <td className="py-4 text-center text-gray-500">2</td>
-                  <td className="py-4 text-right font-medium">$8.30</td>
+                  <td className="py-4 text-right font-medium">10</td>
                 </tr>
                 <tr>
                   <td className="py-4">
@@ -110,9 +107,8 @@ export default function DemoInvoice() {
                       Architecture review, best practices audit, maintainability assessment
                     </p>
                   </td>
-                  <td className="py-4 text-center text-gray-500">8</td>
                   <td className="py-4 text-center text-gray-500">1</td>
-                  <td className="py-4 text-right font-medium">$6.64</td>
+                  <td className="py-4 text-right font-medium">8</td>
                 </tr>
                 <tr>
                   <td className="py-4">
@@ -121,9 +117,8 @@ export default function DemoInvoice() {
                       Bespoke analysis of deployment pipeline, build optimization, staging strategy
                     </p>
                   </td>
-                  <td className="py-4 text-center text-gray-500">15</td>
                   <td className="py-4 text-center text-gray-500">1</td>
-                  <td className="py-4 text-right font-medium">$12.45</td>
+                  <td className="py-4 text-right font-medium">15</td>
                 </tr>
               </tbody>
             </table>
@@ -131,30 +126,22 @@ export default function DemoInvoice() {
 
           {/* Totals */}
           <div className="mt-6 flex justify-end">
-            <div className="w-64">
-              <div className="flex justify-between py-2 text-sm">
-                <span className="text-gray-500">Subtotal</span>
-                <span className="font-medium">$35.69</span>
-              </div>
+            <div className="w-72">
               <div className="flex justify-between py-2 text-sm">
                 <span className="text-gray-500">Credits Used</span>
-                <span className="font-medium">48</span>
+                <span className="font-medium">43</span>
               </div>
               <div className="flex justify-between py-2 text-sm">
-                <span className="text-gray-500">Credit Pack Applied</span>
-                <span className="text-gray-500">Pro (50 credits @ $0.083/cr)</span>
+                <span className="text-gray-500">Credits Remaining</span>
+                <span className="font-medium">7</span>
               </div>
               <div className="mt-2 flex justify-between border-t border-gray-200 pt-3">
-                <span className="text-base font-semibold">Total</span>
-                <span className="text-base font-bold">$35.69</span>
+                <span className="text-base font-semibold">Total Credits</span>
+                <span className="text-base font-bold">43</span>
               </div>
               <div className="flex justify-between pt-1 text-sm">
-                <span className="text-gray-500">Amount Paid</span>
-                <span className="font-medium text-emerald-600">-$35.69</span>
-              </div>
-              <div className="flex justify-between pt-1 text-sm">
-                <span className="font-semibold">Balance Due</span>
-                <span className="font-bold">$0.00</span>
+                <span className="text-gray-400">Est. value</span>
+                <span className="text-gray-400">~$3.57</span>
               </div>
             </div>
           </div>
@@ -166,8 +153,7 @@ export default function DemoInvoice() {
             </p>
             <p className="mt-2 text-sm text-gray-500">
               All reports delivered as PDF via email. Credits deducted from Pro
-              pack purchased on Feb 12, 2026. Remaining balance: 2 credits.
-              Credits never expire.
+              pack purchased on Feb 12, 2026. Credits never expire.
             </p>
           </div>
 

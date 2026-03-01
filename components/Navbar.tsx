@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 const navLinks = [
   { label: "Services", href: "#services" },
@@ -33,11 +35,23 @@ function LogoMark() {
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-card-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#" className="flex items-center gap-2.5 text-xl font-bold tracking-tight">
+        <a href="/" className="flex items-center gap-2.5 text-xl font-bold tracking-tight">
           <LogoMark />
           <span>
             <span className="bg-gradient-to-r from-accent via-blue-400 to-purple-400 bg-clip-text text-transparent">Raja</span>{" "}
@@ -56,12 +70,21 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <a
-            href="#pricing"
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-background transition-colors hover:bg-accent-hover"
-          >
-            Get Credits
-          </a>
+          {user ? (
+            <a
+              href="/dashboard"
+              className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-background transition-colors hover:bg-accent-hover"
+            >
+              Dashboard
+            </a>
+          ) : (
+            <a
+              href="/login"
+              className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-background transition-colors hover:bg-accent-hover"
+            >
+              Sign In
+            </a>
+          )}
         </div>
 
         {/* Mobile toggle */}
@@ -109,16 +132,29 @@ export default function Navbar() {
                   {link.label}
                 </motion.a>
               ))}
-              <motion.a
-                href="#pricing"
-                onClick={() => setMobileOpen(false)}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navLinks.length * 0.05 }}
-                className="mt-2 block rounded-lg bg-accent px-4 py-2 text-center text-sm font-semibold text-background transition-colors hover:bg-accent-hover"
-              >
-                Get Credits
-              </motion.a>
+              {user ? (
+                <motion.a
+                  href="/dashboard"
+                  onClick={() => setMobileOpen(false)}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navLinks.length * 0.05 }}
+                  className="mt-2 block rounded-lg bg-accent px-4 py-2 text-center text-sm font-semibold text-background transition-colors hover:bg-accent-hover"
+                >
+                  Dashboard
+                </motion.a>
+              ) : (
+                <motion.a
+                  href="/login"
+                  onClick={() => setMobileOpen(false)}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navLinks.length * 0.05 }}
+                  className="mt-2 block rounded-lg bg-accent px-4 py-2 text-center text-sm font-semibold text-background transition-colors hover:bg-accent-hover"
+                >
+                  Sign In
+                </motion.a>
+              )}
             </div>
           </motion.div>
         )}

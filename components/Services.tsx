@@ -3,12 +3,12 @@
 import AnimatedSection from "./AnimatedSection";
 
 const services = [
-  { title: "Performance Audit", credits: 5, description: "Load times, Core Web Vitals, and optimization roadmap.", color: "border-l-cyan-500" },
-  { title: "Security Assessment", credits: 10, description: "Vulnerabilities, misconfigurations, and remediation across your stack.", color: "border-l-red-500" },
-  { title: "Code Review", credits: 8, description: "Architecture, patterns, best practices, and maintainability.", color: "border-l-green-500" },
-  { title: "Stack Evaluation", credits: 7, description: "Strategic assessment of your technology choices.", color: "border-l-violet-500" },
-  { title: "SEO Audit", credits: 5, description: "Crawlability, indexing, structured data, and technical SEO.", color: "border-l-amber-500" },
-  { title: "Custom Report", credits: 15, description: "Bespoke technical analysis on any topic you need covered.", color: "border-l-blue-500" },
+  { title: "Performance Audit", credits: 25, description: "Load times, Core Web Vitals, and optimization roadmap.", color: "border-l-cyan-500" },
+  { title: "Security Assessment", credits: 75, description: "Vulnerabilities, misconfigurations, and remediation across your stack.", color: "border-l-red-500" },
+  { title: "Code Review", credits: 50, description: "Architecture, patterns, best practices, and maintainability.", color: "border-l-green-500" },
+  { title: "Stack Evaluation", credits: 40, description: "Strategic assessment of your technology choices.", color: "border-l-violet-500" },
+  { title: "SEO Audit", credits: 25, description: "Crawlability, indexing, structured data, and technical SEO.", color: "border-l-amber-500" },
+  { title: "Custom Report", credits: 200, description: "Bespoke technical analysis on any topic you need covered.", color: "border-l-blue-500" },
 ];
 
 export default function Services() {

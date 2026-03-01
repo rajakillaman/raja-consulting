@@ -12,19 +12,21 @@ const navLinks = [
 
 function LogoMark() {
   return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="shrink-0">
-      <rect width="32" height="32" rx="8" fill="url(#logo-grad)" />
-      <path
-        d="M10 22V10h5.5a4.5 4.5 0 013.12 7.74L22 22h-3.4l-3.08-3.86H13.2V22H10zm3.2-6.72h2.3a1.64 1.64 0 100-3.28h-2.3v3.28z"
-        fill="#0a0a0a"
-      />
+    <svg width="28" height="28" viewBox="0 0 512 512" fill="none" className="shrink-0">
       <defs>
-        <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32">
+        <linearGradient id="logo-g1" x1="80" y1="64" x2="432" y2="448" gradientUnits="userSpaceOnUse">
           <stop stopColor="#06b6d4" />
           <stop offset="0.5" stopColor="#3b82f6" />
-          <stop offset="1" stopColor="#8b5cf6" />
+          <stop stopColor="#8b5cf6" offset="1" />
+        </linearGradient>
+        <linearGradient id="logo-g2" x1="280" y1="260" x2="432" y2="448" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#3b82f6" />
+          <stop stopColor="#8b5cf6" offset="1" />
         </linearGradient>
       </defs>
+      <rect x="80" y="64" width="56" height="384" rx="28" fill="url(#logo-g1)" />
+      <path d="M108 64h120c77.32 0 140 62.68 140 140s-62.68 140-140 140H136" stroke="url(#logo-g1)" strokeWidth="56" strokeLinecap="round" fill="none" />
+      <rect x="248" y="272" width="56" height="210" rx="28" transform="rotate(-25 248 272)" fill="url(#logo-g2)" />
     </svg>
   );
 }

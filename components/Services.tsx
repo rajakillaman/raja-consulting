@@ -70,7 +70,7 @@ export default function Services() {
                   <div className="mb-4 flex items-center justify-between">
                     <h3 className="text-base font-semibold">{service.title}</h3>
                     <span className={`rounded-full bg-gradient-to-r ${service.gradient} px-3 py-1 text-xs font-medium text-foreground/80`}>
-                      {service.credits} cr
+                      {service.credits} Credits
                     </span>
                   </div>
                   <p className="text-sm leading-relaxed text-muted">

@@ -1,125 +1,192 @@
-const featuredBundles = [
+const featuredPacks = [
   {
-    name: "Wedding Planner Client OS",
+    name: "Planner Business Suite",
     price: "$229",
+    details: "26 assets · Canva + Docs + Sheets",
     description:
-      "Contracts, timeline boards, client onboarding, vendor handoff sheets, and reusable planning workflows.",
-    includes: "26 editable files",
+      "Client onboarding, timeline frameworks, vendor coordination tools, and polished proposal documents.",
   },
   {
-    name: "Wedding Photographer Delivery Stack",
+    name: "Photographer Workflow Vault",
     price: "$189",
+    details: "21 assets · Notion + Docs + Canva",
     description:
-      "Inquiry scripts, booking kit, shot-list templates, gallery delivery email flows, and album upsell documents.",
-    includes: "21 editable files",
+      "Inquiry handling, booking flows, shot-list systems, gallery delivery sequences, and upsell scripts.",
   },
   {
-    name: "Venue Marketing Kit",
+    name: "Venue Sales Toolkit",
     price: "$149",
+    details: "17 assets · Canva + Docs",
     description:
-      "Tour scripts, package one-pagers, social content calendars, and offer positioning docs for venue teams.",
-    includes: "17 editable files",
+      "Tour conversion scripts, package one-pagers, and monthly promotion planning templates for venue teams.",
   },
 ];
 
-const productGrid = [
-  { name: "Client Discovery Questionnaire", type: "Google Docs", price: "$9" },
-  { name: "Wedding Budget Tracker", type: "Google Sheets", price: "$12" },
-  { name: "Vendor Outreach Email Scripts", type: "Docs + PDF", price: "$15" },
-  { name: "Proposal Cover Sheet Set", type: "Canva", price: "$19" },
-  { name: "Booking Call Script Pack", type: "Notion + Docs", price: "$19" },
-  { name: "Wedding Weekend Timeline Builder", type: "Sheets + Notion", price: "$29" },
-  { name: "Planner Onboarding Kit", type: "Docs + PDF", price: "$39" },
-  { name: "Photographer Prep Checklist Vault", type: "Notion", price: "$39" },
-  { name: "Venue Tour Conversion Kit", type: "Canva + Docs", price: "$49" },
-  { name: "Social Promo Calendar (12-Month)", type: "Canva + Sheets", price: "$59" },
-  { name: "Contract Clause Library", type: "Docs", price: "$69" },
-  { name: "Wedding Pro Launch Bundle", type: "Mixed format", price: "$99" },
+const quickProducts = [
+  { name: "Client Discovery Questionnaire", format: "Google Docs", price: "$9" },
+  { name: "Wedding Budget Tracker", format: "Google Sheets", price: "$12" },
+  { name: "Booking Call Script Pack", format: "Notion + Docs", price: "$19" },
+  { name: "Planner Onboarding Kit", format: "Docs + PDF", price: "$39" },
+  { name: "Venue Tour Conversion Kit", format: "Canva + Docs", price: "$49" },
+  { name: "Contract Clause Library", format: "Google Docs", price: "$69" },
 ];
 
-const faqs = [
+const productSpotlights = [
   {
-    question: "Is this subscription-based?",
-    answer:
-      "No. Every product is a one-time payment with instant access and lifetime usage rights for your own client work.",
+    title: "Planner Business Suite",
+    audience: "For wedding planners",
+    price: "$229",
+    cta: "Buy Planner Suite",
+    points: [
+      "Client onboarding scripts and intake packets",
+      "Wedding-day timeline framework templates",
+      "Vendor communication and handoff systems",
+      "Proposal and pricing presentation pages",
+    ],
   },
   {
-    question: "Can buyers edit everything themselves?",
-    answer:
-      "Yes. Every asset ships in editable formats (Canva, Google Docs/Sheets, Notion, or PDF) and includes a quick-start guide.",
+    title: "Photographer Workflow Vault",
+    audience: "For wedding photographers",
+    price: "$189",
+    cta: "Buy Photographer Vault",
+    points: [
+      "Inquiry response and booking sequence docs",
+      "Shoot prep checklists and shot-list templates",
+      "Gallery delivery and album upsell email flows",
+      "Post-event referral and review templates",
+    ],
   },
   {
-    question: "Why buy this instead of prompting ChatGPT?",
-    answer:
-      "These are production-ready operating systems with polished layouts, sequencing, and workflow dependencies already solved. Buyers save hours of setup and testing.",
+    title: "Venue Sales Toolkit",
+    audience: "For wedding venues",
+    price: "$149",
+    cta: "Buy Venue Toolkit",
+    points: [
+      "Tour script and objection handling sheets",
+      "Package one-pagers and pricing table templates",
+      "Offer positioning and promo campaign planners",
+      "Lead follow-up and conversion sequence docs",
+    ],
   },
 ];
+
+function Icon({ name }: { name: "price" | "bolt" | "layers" | "check" }) {
+  if (name === "price") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden>
+        <path d="M4 7h10l6 6-7 7-9-9z" />
+        <circle cx="9.2" cy="9.2" r="1.2" />
+      </svg>
+    );
+  }
+
+  if (name === "bolt") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden>
+        <path d="M13 2 5 13h6l-1 9 9-13h-6z" />
+      </svg>
+    );
+  }
+
+  if (name === "layers") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden>
+        <path d="m12 3 9 5-9 5-9-5z" />
+        <path d="m3 12 9 5 9-5" />
+        <path d="m3 16 9 5 9-5" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden>
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  );
+}
 
 export default function Home() {
   return (
     <main>
-      <header className="site-shell topbar">
-        <div className="brand-mark">
-          <span className="brand-symbol">VV</span>
-          <span>Velvet Vow Systems</span>
+      <header className="shell topbar">
+        <div className="brand-mark" aria-label="Velvet Vow Systems">
+          <span className="brand-symbol" aria-hidden>
+            <svg viewBox="0 0 36 36">
+              <path d="M9 11c2.2 0 3.8 1.6 5.1 4.4 1.2-2.8 2.8-4.4 5.1-4.4 3.2 0 5.5 2.4 5.5 5.8 0 5.3-5.1 8.7-10.6 12.5C8.7 25.5 3.6 22.1 3.6 16.8 3.6 13.4 5.9 11 9 11Z" />
+              <path d="m14 14 4 10 4-10" />
+            </svg>
+          </span>
+          <span className="brand-text">
+            <strong>Velvet Vow Systems</strong>
+            <small>Wedding Business Template Atelier</small>
+          </span>
         </div>
         <nav className="top-nav">
+          <a href="#packs">Packs</a>
           <a href="#catalog">Catalog</a>
-          <a href="#bundles">Bundles</a>
+          <a href="#detail">Product Detail</a>
           <a href="#faq">FAQ</a>
         </nav>
       </header>
 
-      <section className="site-shell hero">
+      <section className="shell hero">
         <p className="eyebrow">One-time payment digital products for wedding pros</p>
         <h1>
-          A template store built for planners, photographers, and venues that
-          need systems now.
+          A cleaner way for wedding pros to run client work with confidence.
         </h1>
         <p className="hero-copy">
-          Sell-ready kits designed for real client workflows. Every download is
-          editable, premium-looking, and priced in the sweet spot of $5-$250.
+          Premium templates for planners, photographers, and venues. Every asset
+          is editable, practical, and sold as a one-time purchase between $5 and $250.
         </p>
         <div className="hero-actions">
           <a className="btn btn-primary" href="#catalog">
-            Browse Products
+            Browse Catalog
           </a>
-          <a className="btn btn-ghost" href="#bundles">
-            View Best-Sellers
+          <a className="btn btn-secondary" href="#packs">
+            View Best Sellers
           </a>
         </div>
       </section>
 
-      <section className="site-shell metrics">
+      <section className="shell trust-strip">
         <article>
+          <span className="icon-chip">
+            <Icon name="price" />
+          </span>
           <h2>$5-$250</h2>
-          <p>Price architecture engineered for high conversion and upsells.</p>
+          <p>Clear one-time pricing across all products.</p>
         </article>
         <article>
-          <h2>100% One-Time</h2>
-          <p>No recurring plans, no subscriptions, no hidden access fees.</p>
+          <span className="icon-chip">
+            <Icon name="bolt" />
+          </span>
+          <h2>100% one-time</h2>
+          <p>No subscriptions, no recurring billing.</p>
         </article>
         <article>
-          <h2>AI-Resistant Value</h2>
-          <p>Workflow sequencing + polished design + implementation guides.</p>
+          <span className="icon-chip">
+            <Icon name="layers" />
+          </span>
+          <h2>Built for real workflows</h2>
+          <p>Sequenced systems, not just text outputs.</p>
         </article>
       </section>
 
-      <section className="site-shell section" id="bundles">
+      <section className="shell section" id="packs">
         <div className="section-head">
-          <p className="eyebrow">Best-selling bundles</p>
-          <h3>High-AOV packs that still fit your one-time model</h3>
+          <p className="eyebrow">Best-selling packs</p>
+          <h3>Complete systems for each wedding business role</h3>
         </div>
-        <div className="bundle-grid">
-          {featuredBundles.map((bundle) => (
-            <article key={bundle.name} className="bundle-card">
-              <div className="bundle-top">
-                <p className="bundle-price">{bundle.price}</p>
-                <span>{bundle.includes}</span>
+        <div className="pack-grid">
+          {featuredPacks.map((pack) => (
+            <article key={pack.name} className="pack-card">
+              <div className="pack-top">
+                <h4>{pack.name}</h4>
+                <p className="pack-price">{pack.price}</p>
               </div>
-              <h4>{bundle.name}</h4>
-              <p>{bundle.description}</p>
-              <button type="button" className="btn btn-primary">
+              <p className="pack-details">{pack.details}</p>
+              <p>{pack.description}</p>
+              <button type="button" className="btn btn-primary block">
                 Add to cart
               </button>
             </article>
@@ -127,59 +194,105 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="site-shell section" id="catalog">
+      <section className="shell section" id="catalog">
         <div className="section-head">
-          <p className="eyebrow">Template catalog</p>
-          <h3>Entry products to premium kits</h3>
+          <p className="eyebrow">Starter catalog</p>
+          <h3>Fast wins from low-ticket to premium</h3>
         </div>
-        <div className="product-grid">
-          {productGrid.map((product) => (
-            <article key={product.name} className="product-card">
-              <div>
-                <h4>{product.name}</h4>
-                <p>{product.type}</p>
+        <div className="catalog-table-wrap">
+          <table className="catalog-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Format</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {quickProducts.map((product) => (
+                <tr key={product.name}>
+                  <td>{product.name}</td>
+                  <td>{product.format}</td>
+                  <td>{product.price}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="shell section detail" id="detail">
+        <div className="section-head">
+          <p className="eyebrow">Product detail pattern</p>
+          <h3>Checkout-focused layouts for higher conversion intent</h3>
+        </div>
+        <div className="detail-grid">
+          {productSpotlights.map((spotlight) => (
+            <article key={spotlight.title} className="detail-card">
+              <p className="detail-audience">{spotlight.audience}</p>
+              <div className="detail-top">
+                <h4>{spotlight.title}</h4>
+                <p className="detail-price">{spotlight.price}</p>
               </div>
-              <strong>{product.price}</strong>
+              <ul>
+                {spotlight.points.map((point) => (
+                  <li key={point}>
+                    <span className="mini-icon">
+                      <Icon name="check" />
+                    </span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <button type="button" className="btn btn-primary block">
+                {spotlight.cta}
+              </button>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="site-shell section rationale">
+      <section className="shell section split">
         <div className="section-head">
-          <p className="eyebrow">Why this niche works</p>
-          <h3>Demand is practical, not trend-dependent</h3>
+          <p className="eyebrow">Why buyers convert</p>
+          <h3>Practical value they can use with clients this week</h3>
         </div>
-        <ul>
-          <li>Wedding pros repeatedly buy assets that save execution time per client.</li>
-          <li>Buyers pay for polish and structure, not just generic text output.</li>
-          <li>Bundled workflows increase average order value while staying under $250.</li>
-        </ul>
+        <div className="points">
+          <p>Templates save setup time for each new client and reduce process errors.</p>
+          <p>Visual polish plus workflow sequencing makes these hard to replace with raw AI output.</p>
+          <p>Bundled packs increase average order value while still fitting your $5-$250 pricing model.</p>
+        </div>
       </section>
 
-      <section className="site-shell section faq" id="faq">
+      <section className="shell section" id="faq">
         <div className="section-head">
           <p className="eyebrow">Frequently asked questions</p>
-          <h3>Simple model, clear expectations</h3>
+          <h3>Simple and transparent purchasing</h3>
         </div>
-        <div className="faq-grid">
-          {faqs.map((item) => (
-            <article key={item.question} className="faq-card">
-              <h4>{item.question}</h4>
-              <p>{item.answer}</p>
-            </article>
-          ))}
+        <div className="faq-list">
+          <article>
+            <h4>Is this subscription-based?</h4>
+            <p>No. Every product is a one-time payment with instant download access.</p>
+          </article>
+          <article>
+            <h4>Can buyers edit everything?</h4>
+            <p>Yes. Assets are delivered in editable formats (Canva, Docs, Sheets, Notion, or PDF).</p>
+          </article>
+          <article>
+            <h4>Why buy these if AI exists?</h4>
+            <p>These are complete systems with design quality, structure, and implementation flow already done.</p>
+          </article>
         </div>
       </section>
 
-      <section className="site-shell cta">
-        <h3>Launch with a catalog that can realistically target $500/day.</h3>
+      <section className="shell cta">
+        <h3>Built for a clean storefront that can scale toward $500/day sales.</h3>
         <p>
-          Start with 12-20 products, push bundles, and keep every offer
-          one-time. This storefront is now built for that model.
+          Expand from this foundation with 12-20 products, 3-5 premium packs,
+          and one-time-only checkout paths.
         </p>
         <a className="btn btn-primary" href="#catalog">
-          Start with the catalog
+          Explore catalog
         </a>
       </section>
     </main>

@@ -1,16 +1,15 @@
-<svg width="32" height="32" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="g1" x1="80" y1="64" x2="432" y2="448" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#06b6d4"/>
-      <stop offset="0.5" stop-color="#3b82f6"/>
-      <stop offset="1" stop-color="#8b5cf6"/>
+    <linearGradient id="card" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9F2"/>
+      <stop offset="1" stop-color="#F4E7DB"/>
     </linearGradient>
-    <linearGradient id="g2" x1="280" y1="260" x2="432" y2="448" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#3b82f6"/>
-      <stop offset="1" stop-color="#8b5cf6"/>
+    <linearGradient id="mark" x1="20" y1="20" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8D674D"/>
+      <stop offset="1" stop-color="#6D4F3B"/>
     </linearGradient>
   </defs>
-  <rect x="80" y="64" width="56" height="384" rx="28" fill="url(#g1)"/>
-  <path d="M108 64h120c77.32 0 140 62.68 140 140s-62.68 140-140 140H136" stroke="url(#g1)" stroke-width="56" stroke-linecap="round" fill="none"/>
-  <rect x="248" y="272" width="56" height="210" rx="28" transform="rotate(-25 248 272)" fill="url(#g2)"/>
+  <rect x="5" y="5" width="54" height="54" rx="14" fill="url(#card)" stroke="#DCCCBD" stroke-width="2"/>
+  <path d="M17 24.5c0-4.15 3.27-7.5 7.3-7.5 2.98 0 5.56 1.74 7.7 4.96 2.14-3.22 4.72-4.96 7.7-4.96 4.03 0 7.3 3.35 7.3 7.5 0 6.57-7.25 11.04-15 16.5-7.75-5.46-15-9.93-15-16.5Z" fill="none" stroke="url(#mark)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m24 25.5 8 19 8-19" stroke="url(#mark)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

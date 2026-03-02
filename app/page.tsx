@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { SiteFooter, SiteHeader } from "@/app/_components/site-chrome";
+
 const featuredPacks = [
   {
     name: "Planner Business Suite",
@@ -108,26 +111,7 @@ function Icon({ name }: { name: "price" | "bolt" | "layers" | "check" }) {
 export default function Home() {
   return (
     <main>
-      <header className="shell topbar">
-        <div className="brand-mark" aria-label="Velvet Vow Systems">
-          <span className="brand-symbol" aria-hidden>
-            <svg viewBox="0 0 36 36">
-              <path d="M9 11c2.2 0 3.8 1.6 5.1 4.4 1.2-2.8 2.8-4.4 5.1-4.4 3.2 0 5.5 2.4 5.5 5.8 0 5.3-5.1 8.7-10.6 12.5C8.7 25.5 3.6 22.1 3.6 16.8 3.6 13.4 5.9 11 9 11Z" />
-              <path d="m14 14 4 10 4-10" />
-            </svg>
-          </span>
-          <span className="brand-text">
-            <strong>Velvet Vow Systems</strong>
-            <small>Wedding Business Template Atelier</small>
-          </span>
-        </div>
-        <nav className="top-nav">
-          <a href="#packs">Packs</a>
-          <a href="#catalog">Catalog</a>
-          <a href="#detail">Product Detail</a>
-          <a href="#faq">FAQ</a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <section className="shell hero">
         <p className="eyebrow">One-time payment digital products for wedding pros</p>
@@ -295,6 +279,45 @@ export default function Home() {
           Explore catalog
         </a>
       </section>
+
+      <section className="shell section page-links">
+        <div className="section-head">
+          <p className="eyebrow">Explore more pages</p>
+          <h3>Browse the full storefront experience</h3>
+        </div>
+        <div className="page-link-grid">
+          <Link href="/catalog" className="page-link-card">
+            <h4>Catalog</h4>
+            <p>Filter-ready product structure with starter and premium offers.</p>
+          </Link>
+          <Link href="/packs" className="page-link-card">
+            <h4>Packs</h4>
+            <p>Role-specific bundles for planners, photographers, and venues.</p>
+          </Link>
+          <Link href="/about" className="page-link-card">
+            <h4>About</h4>
+            <p>Brand story, positioning, and why this template model works.</p>
+          </Link>
+          <Link href="/contact" className="page-link-card">
+            <h4>Contact</h4>
+            <p>Sales and support contact path for pre-purchase confidence.</p>
+          </Link>
+          <Link href="/blog" className="page-link-card">
+            <h4>Blog</h4>
+            <p>Image-rich tactical posts on sales systems and client workflows.</p>
+          </Link>
+          <Link href="/legal/privacy-policy" className="page-link-card">
+            <h4>Privacy Policy</h4>
+            <p>Data handling and customer privacy commitments.</p>
+          </Link>
+          <Link href="/legal/terms-of-service" className="page-link-card">
+            <h4>Terms of Service</h4>
+            <p>Usage rights, license scope, and legal purchase terms.</p>
+          </Link>
+        </div>
+      </section>
+
+      <SiteFooter />
     </main>
   );
 }

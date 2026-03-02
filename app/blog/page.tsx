@@ -1,7 +1,20 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/app/_components/site-chrome";
 import { blogPosts } from "@/app/_data/blog-posts";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Tactical articles for wedding planners, photographers, and venue teams focused on sales and operations.",
+  openGraph: {
+    title: "Velvet Vow Systems Blog",
+    description:
+      "Tactical articles for wedding professionals focused on sales and operations.",
+    type: "website",
+  },
+};
 
 export default function BlogIndexPage() {
   return (

@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { PageFrame } from "@/app/_components/page-frame";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description:
+    "Understand license rights, usage limits, and purchase terms for Velvet Vow Systems.",
+};
 
 export default function TermsOfServicePage() {
   return (

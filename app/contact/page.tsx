@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { PageFrame } from "@/app/_components/page-frame";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Contact Velvet Vow Systems for sales, support, and pre-purchase questions.",
+};
 
 export default function ContactPage() {
   return (

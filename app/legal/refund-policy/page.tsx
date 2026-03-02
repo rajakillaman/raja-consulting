@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { PageFrame } from "@/app/_components/page-frame";
+
+export const metadata: Metadata = {
+  title: "Refund Policy",
+  description:
+    "Review refund eligibility and request process for Velvet Vow Systems digital products.",
+};
 
 export default function RefundPolicyPage() {
   return (

@@ -44,12 +44,20 @@ export function SiteFooter() {
           Premium one-time digital templates for wedding planners,
           photographers, and venue teams.
         </p>
+        <p className="footer-meta">
+          Contact:{" "}
+          <a href="mailto:revolveevents@protonmail.com">
+            revolveevents@protonmail.com
+          </a>{" "}
+          · Digital products only · Instant delivery after purchase
+        </p>
       </div>
       <nav className="footer-links">
         <Link href="/catalog">Catalog</Link>
         <Link href="/packs">Packs</Link>
         <Link href="/blog">Blog</Link>
         <Link href="/about">About</Link>
+        <Link href="/legal">Legal</Link>
         <Link href="/legal/privacy-policy">Privacy Policy</Link>
         <Link href="/legal/refund-policy">Refund Policy</Link>
         <Link href="/legal/terms-of-service">Terms of Service</Link>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -10,6 +11,30 @@ type BlogPostPageProps = {
 
 export function generateStaticParams() {
   return blogPosts.map((post) => ({ slug: post.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = blogPosts.find((entry) => entry.slug === slug);
+
+  if (!post) {
+    return {
+      title: "Article not found",
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: [post.coverImage],
+      type: "article",
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {

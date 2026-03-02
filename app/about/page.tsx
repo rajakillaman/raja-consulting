@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { PageFrame } from "@/app/_components/page-frame";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Learn how Velvet Vow Systems designs one-time purchase digital products for wedding professionals.",
+};
 
 export default function AboutPage() {
   return (

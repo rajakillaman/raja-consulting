@@ -1,40 +1,16 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import { PageFrame } from "@/app/_components/page-frame";
+import { featuredPackSlugs, products } from "@/app/_data/products";
+import { TrackedLinkButton } from "@/app/_components/tracked-link-button";
 
-const packs = [
-  {
-    title: "Planner Business Suite",
-    price: "$229",
-    details: "26 assets · Canva + Docs + Sheets",
-    bullets: [
-      "Client intake templates and kickoff scripts",
-      "Timeline planning and wedding-weekend run sheets",
-      "Vendor communication packet system",
-      "Proposal and pricing presentation templates",
-    ],
-  },
-  {
-    title: "Photographer Workflow Vault",
-    price: "$189",
-    details: "21 assets · Notion + Docs + Canva",
-    bullets: [
-      "Inquiry response and booking sequence docs",
-      "Shoot prep and delivery checklists",
-      "Gallery handoff and upsell email templates",
-      "Referral + review post-event scripts",
-    ],
-  },
-  {
-    title: "Venue Sales Toolkit",
-    price: "$149",
-    details: "17 assets · Canva + Docs",
-    bullets: [
-      "Venue tour script and objection handling",
-      "Package one-pager and pricing templates",
-      "Seasonal campaign planner templates",
-      "Lead follow-up conversion sequence assets",
-    ],
-  },
-];
+const packs = products.filter((product) => featuredPackSlugs.includes(product.slug));
+
+export const metadata: Metadata = {
+  title: "Packs",
+  description:
+    "Role-specific premium packs for wedding planners, photographers, and venue teams.",
+};
 
 export default function PacksPage() {
   return (
@@ -45,25 +21,37 @@ export default function PacksPage() {
     >
       <div className="detail-grid">
         {packs.map((pack) => (
-          <article key={pack.title} className="detail-card">
-            <p className="detail-audience">{pack.details}</p>
+          <article key={pack.slug} className="detail-card">
+            <p className="detail-audience">{pack.format}</p>
             <div className="detail-top">
-              <h4>{pack.title}</h4>
-              <p className="detail-price">{pack.price}</p>
+              <h4>{pack.name}</h4>
+              <p className="detail-price">{pack.priceLabel}</p>
             </div>
             <ul>
-              {pack.bullets.map((bullet) => (
+              {pack.includes.map((bullet) => (
                 <li key={bullet}>
-                    <span className="mini-icon" aria-hidden>
-                      •
-                    </span>
-                    <span>{bullet}</span>
+                  <span className="mini-icon" aria-hidden>
+                    •
+                  </span>
+                  <span>{bullet}</span>
                 </li>
               ))}
             </ul>
-            <button type="button" className="btn btn-primary block">
+            <TrackedLinkButton
+              href={`/checkout/${pack.slug}`}
+              className="btn btn-primary block"
+              eventName="click_buy_from_pack_page"
+              eventPayload={{
+                product_slug: pack.slug,
+                product_name: pack.name,
+                price_value: pack.priceValue,
+              }}
+            >
               Buy now
-            </button>
+            </TrackedLinkButton>
+            <Link href={`/products/${pack.slug}`} className="btn btn-secondary block">
+              View details
+            </Link>
           </article>
         ))}
       </div>

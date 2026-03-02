@@ -1,19 +1,13 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import { PageFrame } from "@/app/_components/page-frame";
+import { products } from "@/app/_data/products";
 
-const catalog = [
-  { name: "Client Discovery Questionnaire", format: "Google Docs", price: "$9" },
-  { name: "Wedding Budget Tracker", format: "Google Sheets", price: "$12" },
-  { name: "Vendor Outreach Email Scripts", format: "Docs + PDF", price: "$15" },
-  { name: "Proposal Cover Sheet Set", format: "Canva", price: "$19" },
-  { name: "Booking Call Script Pack", format: "Notion + Docs", price: "$19" },
-  { name: "Wedding Weekend Timeline Builder", format: "Sheets + Notion", price: "$29" },
-  { name: "Planner Onboarding Kit", format: "Docs + PDF", price: "$39" },
-  { name: "Photographer Prep Checklist Vault", format: "Notion", price: "$39" },
-  { name: "Venue Tour Conversion Kit", format: "Canva + Docs", price: "$49" },
-  { name: "Social Promo Calendar (12-Month)", format: "Canva + Sheets", price: "$59" },
-  { name: "Contract Clause Library", format: "Google Docs", price: "$69" },
-  { name: "Wedding Pro Launch Bundle", format: "Mixed format", price: "$99" },
-];
+export const metadata: Metadata = {
+  title: "Catalog",
+  description:
+    "Browse one-time purchase templates and packs for wedding planners, photographers, and venues.",
+};
 
 export default function CatalogPage() {
   return (
@@ -29,16 +23,24 @@ export default function CatalogPage() {
             <thead>
               <tr>
                 <th>Product</th>
+                <th>Category</th>
                 <th>Format</th>
                 <th>Price</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {catalog.map((product) => (
-                <tr key={product.name}>
+              {products.map((product) => (
+                <tr key={product.slug}>
                   <td>{product.name}</td>
+                  <td>{product.category}</td>
                   <td>{product.format}</td>
-                  <td>{product.price}</td>
+                  <td>{product.priceLabel}</td>
+                  <td>
+                    <Link href={`/products/${product.slug}`} className="table-link">
+                      View
+                    </Link>
+                  </td>
                 </tr>
               ))}
             </tbody>

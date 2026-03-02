@@ -1,77 +1,26 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/app/_components/site-chrome";
+import {
+  featuredPackSlugs,
+  products,
+  starterProductSlugs,
+} from "@/app/_data/products";
+import { TrackedLinkButton } from "@/app/_components/tracked-link-button";
 
-const featuredPacks = [
-  {
-    name: "Planner Business Suite",
-    price: "$229",
-    details: "26 assets · Canva + Docs + Sheets",
-    description:
-      "Client onboarding, timeline frameworks, vendor coordination tools, and polished proposal documents.",
-  },
-  {
-    name: "Photographer Workflow Vault",
-    price: "$189",
-    details: "21 assets · Notion + Docs + Canva",
-    description:
-      "Inquiry handling, booking flows, shot-list systems, gallery delivery sequences, and upsell scripts.",
-  },
-  {
-    name: "Venue Sales Toolkit",
-    price: "$149",
-    details: "17 assets · Canva + Docs",
-    description:
-      "Tour conversion scripts, package one-pagers, and monthly promotion planning templates for venue teams.",
-  },
-];
+const featuredPacks = products.filter((product) =>
+  featuredPackSlugs.includes(product.slug)
+);
+const quickProducts = products.filter((product) =>
+  starterProductSlugs.includes(product.slug)
+);
+const productSpotlights = featuredPacks;
 
-const quickProducts = [
-  { name: "Client Discovery Questionnaire", format: "Google Docs", price: "$9" },
-  { name: "Wedding Budget Tracker", format: "Google Sheets", price: "$12" },
-  { name: "Booking Call Script Pack", format: "Notion + Docs", price: "$19" },
-  { name: "Planner Onboarding Kit", format: "Docs + PDF", price: "$39" },
-  { name: "Venue Tour Conversion Kit", format: "Canva + Docs", price: "$49" },
-  { name: "Contract Clause Library", format: "Google Docs", price: "$69" },
-];
-
-const productSpotlights = [
-  {
-    title: "Planner Business Suite",
-    audience: "For wedding planners",
-    price: "$229",
-    cta: "Buy Planner Suite",
-    points: [
-      "Client onboarding scripts and intake packets",
-      "Wedding-day timeline framework templates",
-      "Vendor communication and handoff systems",
-      "Proposal and pricing presentation pages",
-    ],
-  },
-  {
-    title: "Photographer Workflow Vault",
-    audience: "For wedding photographers",
-    price: "$189",
-    cta: "Buy Photographer Vault",
-    points: [
-      "Inquiry response and booking sequence docs",
-      "Shoot prep checklists and shot-list templates",
-      "Gallery delivery and album upsell email flows",
-      "Post-event referral and review templates",
-    ],
-  },
-  {
-    title: "Venue Sales Toolkit",
-    audience: "For wedding venues",
-    price: "$149",
-    cta: "Buy Venue Toolkit",
-    points: [
-      "Tour script and objection handling sheets",
-      "Package one-pagers and pricing table templates",
-      "Offer positioning and promo campaign planners",
-      "Lead follow-up and conversion sequence docs",
-    ],
-  },
-];
+export const metadata: Metadata = {
+  title: "Home",
+  description:
+    "Premium one-time digital templates for wedding planners, photographers, and venues.",
+};
 
 function Icon({ name }: { name: "price" | "bolt" | "layers" | "check" }) {
   if (name === "price") {
@@ -163,16 +112,25 @@ export default function Home() {
         </div>
         <div className="pack-grid">
           {featuredPacks.map((pack) => (
-            <article key={pack.name} className="pack-card">
+            <article key={pack.slug} className="pack-card">
               <div className="pack-top">
                 <h4>{pack.name}</h4>
-                <p className="pack-price">{pack.price}</p>
+                <p className="pack-price">{pack.priceLabel}</p>
               </div>
-              <p className="pack-details">{pack.details}</p>
-              <p>{pack.description}</p>
-              <button type="button" className="btn btn-primary block">
-                Add to cart
-              </button>
+              <p className="pack-details">{pack.format}</p>
+              <p>{pack.summary}</p>
+              <TrackedLinkButton
+                href={`/checkout/${pack.slug}`}
+                className="btn btn-primary block"
+                eventName="click_buy_from_home_pack"
+                eventPayload={{
+                  product_slug: pack.slug,
+                  product_name: pack.name,
+                  price_value: pack.priceValue,
+                }}
+              >
+                Buy now
+              </TrackedLinkButton>
             </article>
           ))}
         </div>
@@ -194,10 +152,10 @@ export default function Home() {
             </thead>
             <tbody>
               {quickProducts.map((product) => (
-                <tr key={product.name}>
+                <tr key={product.slug}>
                   <td>{product.name}</td>
                   <td>{product.format}</td>
-                  <td>{product.price}</td>
+                  <td>{product.priceLabel}</td>
                 </tr>
               ))}
             </tbody>
@@ -212,14 +170,14 @@ export default function Home() {
         </div>
         <div className="detail-grid">
           {productSpotlights.map((spotlight) => (
-            <article key={spotlight.title} className="detail-card">
-              <p className="detail-audience">{spotlight.audience}</p>
+            <article key={spotlight.slug} className="detail-card">
+              <p className="detail-audience">For {spotlight.audience}</p>
               <div className="detail-top">
-                <h4>{spotlight.title}</h4>
-                <p className="detail-price">{spotlight.price}</p>
+                <h4>{spotlight.name}</h4>
+                <p className="detail-price">{spotlight.priceLabel}</p>
               </div>
               <ul>
-                {spotlight.points.map((point) => (
+                {spotlight.includes.slice(0, 4).map((point) => (
                   <li key={point}>
                     <span className="mini-icon">
                       <Icon name="check" />
@@ -228,9 +186,18 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <button type="button" className="btn btn-primary block">
-                {spotlight.cta}
-              </button>
+              <TrackedLinkButton
+                href={`/checkout/${spotlight.slug}`}
+                className="btn btn-primary block"
+                eventName="click_buy_from_home_spotlight"
+                eventPayload={{
+                  product_slug: spotlight.slug,
+                  product_name: spotlight.name,
+                  price_value: spotlight.priceValue,
+                }}
+              >
+                Buy now
+              </TrackedLinkButton>
             </article>
           ))}
         </div>

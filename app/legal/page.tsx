@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PageFrame } from "@/app/_components/page-frame";
 
@@ -18,6 +19,12 @@ const legalPages = [
     summary: "License terms, usage boundaries, and service obligations.",
   },
 ];
+
+export const metadata: Metadata = {
+  title: "Legal",
+  description:
+    "Access privacy policy, refund policy, and terms of service for Velvet Vow Systems.",
+};
 
 export default function LegalIndexPage() {
   return (

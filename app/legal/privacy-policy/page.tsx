@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { PageFrame } from "@/app/_components/page-frame";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Read how Velvet Vow Systems collects, uses, and protects customer information.",
+};
 
 export default function PrivacyPolicyPage() {
   return (

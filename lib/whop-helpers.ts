@@ -2,6 +2,8 @@ import crypto from "crypto";
 
 // ── Timing-safe string compare ─────────────────────────────────────────────────
 export function timingSafeEqual(a: string, b: string): boolean {
+  // Return false (not throw) if either value is missing — handles unset env vars
+  if (!a || !b) return false;
   const bufA = Buffer.from(a);
   const bufB = Buffer.from(b);
   if (bufA.length !== bufB.length) return false;
@@ -17,6 +19,7 @@ export function signOrderId(orderId: number | string): string {
 }
 
 export function verifyOrderSig(orderId: number | string, sig: string): boolean {
+  if (!sig || !process.env.WHOP_SIG_SECRET) return false;
   const expected = signOrderId(orderId);
   try {
     return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected));

@@ -27,21 +27,18 @@ export async function POST(req: NextRequest) {
 
   // 4. Create inline Whop checkout config
   //    CRITICAL: source_url intentionally omitted — would reveal originating site to Whop
-  const whopRes = await fetch("https://api.whop.com/v5/checkout-configurations", {
+  const whopRes = await fetch("https://api.whop.com/api/v1/checkout_configurations", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${process.env.WHOP_API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      mode: "payment",
       plan: {
         company_id: process.env.WHOP_COMPANY_ID,
         currency: "usd",
-        title: "Digital Content",
         plan_type: "one_time",
         initial_price: total_usd,
-        stock: 1,
         visibility: "quick_link",
       },
       redirect_url: resultUrl,
@@ -60,8 +57,8 @@ export async function POST(req: NextRequest) {
   }
 
   const config = await whopRes.json();
-  // Whop returns purchase_url as a relative path: /checkout/plan_xxx?session=ch_xxx
-  const purchaseUrl = `https://whop.com${config.purchase_url}`;
+  // Whop returns purchase_url as a full URL
+  const purchaseUrl = config.purchase_url as string;
 
   // 5. Create stateless signed token (embeds purchase_url — no database needed)
   const token = createCheckoutToken(wc_order_id, purchaseUrl);

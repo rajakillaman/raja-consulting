@@ -9,14 +9,14 @@ export async function POST(req: NextRequest) {
   }
 
   // 2. Parse and validate body
-  let body: { wc_order_id?: number; total_usd?: number; items?: unknown[] };
+  let body: { wc_order_id?: number; total_usd?: number; items?: unknown[]; customer_email?: string };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { wc_order_id, total_usd } = body;
+  const { wc_order_id, total_usd, customer_email } = body;
   if (!wc_order_id || !total_usd || total_usd <= 0) {
     return NextResponse.json({ error: "Missing or invalid fields" }, { status: 400 });
   }
@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
         visibility: "quick_link",
       },
       redirect_url: resultUrl,
+      ...(customer_email ? { customer_email } : {}),
       metadata: {
         wc_order_id: String(wc_order_id),
         site: "lh",

@@ -9,14 +9,14 @@ export async function POST(req: NextRequest) {
   }
 
   // 2. Parse and validate body
-  let body: { wc_order_id?: number; total_usd?: number; items?: unknown[] };
+  let body: { wc_order_id?: number; total_usd?: number; items?: unknown[]; customer_email?: string };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { wc_order_id, total_usd } = body;
+  const { wc_order_id, total_usd, customer_email } = body;
   if (!wc_order_id || !total_usd || total_usd <= 0) {
     return NextResponse.json({ error: "Missing or invalid fields" }, { status: 400 });
   }
@@ -60,8 +60,16 @@ export async function POST(req: NextRequest) {
   // Whop returns purchase_url as a full URL
   const purchaseUrl = config.purchase_url as string;
 
-  // 5. Create stateless signed token (embeds purchase_url — no database needed)
-  const token = createCheckoutToken(wc_order_id, purchaseUrl);
+  // Extract plan_id from purchase_url (e.g. https://whop.com/checkout/plan_xxx/)
+  const planIdMatch = purchaseUrl.match(/\/checkout\/(plan_[^/?#]+)/);
+  if (!planIdMatch) {
+    console.error("Whop: could not extract plan_id from purchase_url:", purchaseUrl);
+    return NextResponse.json({ error: "Payment processor error" }, { status: 502 });
+  }
+  const planId = planIdMatch[1];
+
+  // 5. Create stateless signed token (embeds purchase_url + plan_id + email — no database needed)
+  const token = createCheckoutToken(wc_order_id, purchaseUrl, planId, customer_email ?? "");
 
   // CRITICAL: Return revolveevents.com checkout URL, NOT the whop.com URL directly.
   // The browser must pass through our referrer-stripping page first so Whop sees

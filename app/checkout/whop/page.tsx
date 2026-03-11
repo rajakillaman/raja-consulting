@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { verifyCheckoutToken } from "@/lib/whop-helpers";
+import WhopEmbed from "./WhopEmbed";
 
 // Force dynamic rendering — token must be verified at request time
 export const dynamic = "force-dynamic";
@@ -20,30 +21,17 @@ export default async function WhopCheckoutPage({
   const session = verifyCheckoutToken(token);
   if (!session) notFound();
 
-  const purchaseUrl = session.purchase_url;
-
-  // Must return raw HTML — cannot use Next.js redirect() here.
-  // A 307 redirect sends Referer: leakifyhub.com to whop.com.
-  // This page sets <meta name="referrer" content="no-referrer"> so the
-  // browser sends Referer: revolveevents.com when it lands on whop.com.
+  // Referrer-Policy: no-referrer is enforced via next.config.ts headers for this route.
+  // The user stays on revolveevents.com — Whop checkout renders inline via embed.
   return (
     <html lang="en">
       <head>
         <meta charSet="UTF-8" />
-        {/* Critical privacy: strips leakifyhub.com referrer before whop.com sees it */}
         <meta name="referrer" content="no-referrer" />
-        <title>Redirecting to checkout…</title>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.location.replace(${JSON.stringify(purchaseUrl)});`,
-          }}
-        />
+        <title>Secure Checkout</title>
       </head>
-      <body style={{ fontFamily: "sans-serif", padding: "2rem", textAlign: "center" }}>
-        <p>Redirecting to secure checkout…</p>
-        <noscript>
-          <a href={purchaseUrl}>Click here if you are not redirected automatically.</a>
-        </noscript>
+      <body style={{ margin: 0, padding: 0 }}>
+        <WhopEmbed planId={session.plan_id} email={session.customer_email} />
       </body>
     </html>
   );

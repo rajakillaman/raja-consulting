@@ -35,23 +35,17 @@ export function verifyOrderSig(orderId: number | string, sig: string): boolean {
 type CheckoutPayload = {
   wc_order_id: number;
   purchase_url: string;
-  plan_id: string;
-  customer_email: string;
   exp: number; // Unix timestamp (seconds)
 };
 
 export function createCheckoutToken(
   wcOrderId: number,
   purchaseUrl: string,
-  planId: string,
-  customerEmail: string,
   ttlSeconds = 1800 // 30 minutes
 ): string {
   const payload: CheckoutPayload = {
     wc_order_id: wcOrderId,
     purchase_url: purchaseUrl,
-    plan_id: planId,
-    customer_email: customerEmail,
     exp: Math.floor(Date.now() / 1000) + ttlSeconds,
   };
   const data = Buffer.from(JSON.stringify(payload)).toString("base64url");
@@ -67,7 +61,7 @@ export function verifyCheckoutToken(token: string): CheckoutPayload | null {
   if (dot === -1) return null;
 
   const data = token.slice(0, dot);
-  const sig = token.slice(dot + 1);
+  const sig  = token.slice(dot + 1);
 
   const expectedSig = crypto
     .createHmac("sha256", process.env.CHECKOUT_TOKEN_SECRET!)

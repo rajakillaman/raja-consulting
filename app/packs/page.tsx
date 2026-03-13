@@ -17,7 +17,7 @@ export default function PacksPage() {
     <PageFrame
       eyebrow="Packs"
       title="Role-specific systems designed for conversion"
-      intro="These high-value bundles are built to save operational time while preserving a one-time payment model."
+      intro="From starter templates to complete systems, these one-time offers are built to save operational time and improve conversion."
     >
       <div className="detail-grid">
         {packs.map((pack) => (

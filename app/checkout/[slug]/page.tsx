@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { getProductBySlug, products } from "@/app/_data/products";
 import { createCheckoutNonce } from "@/lib/product-download";
 
-// Force dynamic — checkout must not be statically cached
 export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
@@ -20,85 +19,65 @@ export default async function ProductCheckoutPage({
 }) {
   const { slug } = await params;
   const product = getProductBySlug(slug);
-
   if (!product) notFound();
 
-  let purchaseUrl: string;
+  // Build the post-payment redirect URL.
+  // Products with a downloadFile go to the download grant handler.
+  // Everything else goes to a thank-you page.
+  const nonce = createCheckoutNonce(slug);
+  const redirectUrl = product.downloadFile
+    ? `https://revolveevents.com/api/download/grant?slug=${encodeURIComponent(slug)}&nonce=${encodeURIComponent(nonce)}`
+    : `https://revolveevents.com/thank-you?slug=${encodeURIComponent(slug)}`;
 
-  // ── Variation B: self-hosted download ────────────────────────────────────
-  // No pre-created Whop product needed. A dynamic checkout config is created
-  // on-the-fly. After payment, Whop sends the user back to /api/download/grant
-  // where we verify and issue a time-limited download token.
-  if (product.downloadFile) {
-    const nonce = createCheckoutNonce(slug);
-    const redirectUrl =
-      `https://revolveevents.com/api/download/grant` +
-      `?slug=${encodeURIComponent(slug)}&nonce=${encodeURIComponent(nonce)}`;
-
-    const whopRes = await fetch("https://api.whop.com/api/v1/checkout_configurations", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.WHOP_API_KEY}`,
-        "Content-Type": "application/json",
+  // Create a dynamic Whop checkout for this product on every request.
+  // No pre-created Whop product needed.
+  const whopRes = await fetch("https://api.whop.com/api/v1/checkout_configurations", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.WHOP_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      plan: {
+        company_id: process.env.WHOP_COMPANY_ID,
+        currency: "usd",
+        plan_type: "one_time",
+        initial_price: product.priceValue,
+        visibility: "quick_link",
       },
-      body: JSON.stringify({
-        plan: {
-          company_id: process.env.WHOP_COMPANY_ID,
-          currency: "usd",
-          plan_type: "one_time",
-          initial_price: product.priceValue,
-          visibility: "quick_link",
-        },
-        redirect_url: redirectUrl,
-        metadata: {
-          slug: product.slug,
-          source: "direct_download",
-        },
-      }),
-    });
+      redirect_url: redirectUrl,
+      metadata: {
+        slug: product.slug,
+        product_name: product.name,
+        source: "revolveevents",
+      },
+    }),
+  });
 
-    if (!whopRes.ok) {
-      const err = await whopRes.text();
-      console.error("Whop checkout creation failed:", whopRes.status, err);
-      // Redirect back to product page with an error flag
-      return (
-        <html lang="en">
-          <head>
-            <meta charSet="UTF-8" />
-            <title>Checkout error</title>
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `window.location.replace(${JSON.stringify(`/products/${slug}?checkout=error`)});`,
-              }}
-            />
-          </head>
-          <body style={{ fontFamily: "sans-serif", padding: "2rem", textAlign: "center" }}>
-            <p>Unable to reach checkout. Redirecting back…</p>
-          </body>
-        </html>
-      );
-    }
-
-    const config = await whopRes.json();
-    purchaseUrl = config.purchase_url as string;
-  }
-
-  // ── Variation A: Whop-hosted plan ────────────────────────────────────────
-  // Pre-created plan in Whop dashboard. Whop handles file delivery natively.
-  else if (product.whopPlanId) {
-    purchaseUrl = `https://whop.com/checkout/${product.whopPlanId}/`;
-  }
-
-  // No checkout method configured — send to product page with a contact prompt
-  else {
-    const subject = encodeURIComponent(`Purchase request: ${product.name}`);
-    const body = encodeURIComponent(
-      `Hi,\n\nI'd like to purchase "${product.name}" (${product.priceLabel}).\nPlease send me the checkout link.\n\nThanks!`
+  if (!whopRes.ok) {
+    const err = await whopRes.text();
+    console.error("Whop checkout creation failed:", whopRes.status, err);
+    return (
+      <html lang="en">
+        <head>
+          <meta charSet="UTF-8" />
+          <title>Checkout unavailable</title>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.location.replace(${JSON.stringify(`/products/${slug}?checkout=error`)});`,
+            }}
+          />
+        </head>
+        <body style={{ fontFamily: "sans-serif", padding: "2rem", textAlign: "center" }}>
+          <p>Unable to reach checkout. Redirecting back…</p>
+        </body>
+      </html>
     );
-    purchaseUrl = `mailto:revolveevents@protonmail.com?subject=${subject}&body=${body}`;
   }
 
-  // Referrer-stripping redirect — same privacy pattern as /checkout/whop.
+  const { purchase_url } = await whopRes.json();
+
+  // Referrer-stripping redirect — browser sends Referer: revolveevents.com to Whop
   return (
     <html lang="en">
       <head>
@@ -107,14 +86,14 @@ export default async function ProductCheckoutPage({
         <title>Redirecting to checkout…</title>
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.location.replace(${JSON.stringify(purchaseUrl)});`,
+            __html: `window.location.replace(${JSON.stringify(purchase_url)});`,
           }}
         />
       </head>
       <body style={{ fontFamily: "sans-serif", padding: "2rem", textAlign: "center" }}>
         <p>Redirecting to secure checkout…</p>
         <noscript>
-          <a href={purchaseUrl}>Click here if you are not redirected automatically.</a>
+          <a href={purchase_url}>Click here if you are not redirected automatically.</a>
         </noscript>
       </body>
     </html>

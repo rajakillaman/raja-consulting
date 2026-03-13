@@ -11,6 +11,8 @@ export type StoreProduct = {
   highlights: string[];
   heroImage: string;
   heroAlt: string;
+  /** Whop plan ID — e.g. "plan_xxxxxxxx". Set to null to disable direct checkout. */
+  whopPlanId: string | null;
 };
 
 export const products: StoreProduct[] = [
@@ -39,6 +41,7 @@ export const products: StoreProduct[] = [
     heroImage:
       "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1400&q=80",
     heroAlt: "Wedding planner desk with tablet, flowers and documents",
+    whopPlanId: null, // TODO: add Whop plan ID after creating product in Whop dashboard
   },
   {
     slug: "photographer-workflow-vault",
@@ -65,6 +68,7 @@ export const products: StoreProduct[] = [
     heroImage:
       "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1400&q=80",
     heroAlt: "Wedding photographer shooting bridal portrait outdoors",
+    whopPlanId: null, // TODO: add Whop plan ID after creating product in Whop dashboard
   },
   {
     slug: "venue-sales-toolkit",
@@ -91,6 +95,7 @@ export const products: StoreProduct[] = [
     heroImage:
       "https://images.unsplash.com/photo-1510076857177-7470076d4098?auto=format&fit=crop&w=1400&q=80",
     heroAlt: "Elegant wedding venue reception setup",
+    whopPlanId: null, // TODO: add Whop plan ID after creating product in Whop dashboard
   },
   {
     slug: "pricing-sheet-starter",
@@ -116,6 +121,7 @@ export const products: StoreProduct[] = [
     heroImage:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80",
     heroAlt: "Pricing sheet mockup on a desk",
+    whopPlanId: null, // TODO: set this to your Whop plan ID, e.g. "plan_xxxxxxxx"
   },
   {
     slug: "follow-up-email-bundle",
@@ -141,6 +147,7 @@ export const products: StoreProduct[] = [
     heroImage:
       "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1400&q=80",
     heroAlt: "Email workflow shown on laptop screen",
+    whopPlanId: null, // TODO: set this to your Whop plan ID, e.g. "plan_xxxxxxxx"
   },
   {
     slug: "client-onboarding-mini-kit",
@@ -166,6 +173,7 @@ export const products: StoreProduct[] = [
     heroImage:
       "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1400&q=80",
     heroAlt: "Client onboarding documents near laptop",
+    whopPlanId: null, // TODO: set this to your Whop plan ID, e.g. "plan_xxxxxxxx"
   },
   {
     slug: "vendor-comms-starter-pack",
@@ -191,6 +199,7 @@ export const products: StoreProduct[] = [
     heroImage:
       "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
     heroAlt: "Team discussing event documents in meeting",
+    whopPlanId: null, // TODO: add Whop plan ID after creating product in Whop dashboard
   },
   {
     slug: "proposal-conversion-kit",
@@ -216,6 +225,7 @@ export const products: StoreProduct[] = [
     heroImage:
       "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1400&q=80",
     heroAlt: "Sales proposal pages open on tablet and desk",
+    whopPlanId: null, // TODO: add Whop plan ID after creating product in Whop dashboard
   },
   {
     slug: "planner-onboarding-kit",
@@ -241,6 +251,7 @@ export const products: StoreProduct[] = [
     heroImage:
       "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1400&q=80",
     heroAlt: "Planner reviewing client documents on laptop",
+    whopPlanId: null, // TODO: add Whop plan ID after creating product in Whop dashboard
   },
   {
     slug: "venue-tour-conversion-kit",
@@ -266,6 +277,7 @@ export const products: StoreProduct[] = [
     heroImage:
       "https://images.unsplash.com/photo-1530023367847-a683933f4175?auto=format&fit=crop&w=1400&q=80",
     heroAlt: "Wedding venue interior with floral decor",
+    whopPlanId: null, // TODO: add Whop plan ID after creating product in Whop dashboard
   },
   {
     slug: "contract-clause-library",
@@ -291,6 +303,7 @@ export const products: StoreProduct[] = [
     heroImage:
       "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1400&q=80",
     heroAlt: "Signed document and pen on desk",
+    whopPlanId: null, // TODO: add Whop plan ID after creating product in Whop dashboard
   },
 ];
 
@@ -316,6 +329,12 @@ export function getProductBySlug(slug: string) {
 }
 
 export function getCheckoutUrlForProduct(product: StoreProduct) {
+  // Direct Whop checkout — used when the product has a whopPlanId set
+  if (product.whopPlanId) {
+    return `/checkout/${product.slug}`;
+  }
+
+  // Legacy leakifyhub.com checkout — untouched
   const base = process.env.NEXT_PUBLIC_CHECKOUT_BASE_URL;
   if (base) {
     return `${base.replace(/\/$/, "")}/${product.slug}`;

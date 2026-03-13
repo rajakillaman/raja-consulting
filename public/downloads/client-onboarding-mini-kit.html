@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client Onboarding Mini Kit — Revolve Events Template</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0f0f0f;
+      --grey-dark: #2b2b2b;
+      --grey-mid: #6b6b6b;
+      --grey-light: #e8e8e8;
+      --white: #ffffff;
+      --accent: #c9a96e;
+      --accent-light: #f7f0e4;
+      --blue: #1a3a66;
+      --blue-light: #eaf0fb;
+      --font-serif: Georgia, 'Times New Roman', serif;
+      --font-sans: 'Helvetica Neue', Arial, sans-serif;
+    }
+    html { font-size: 15px; }
+    body { font-family: var(--font-sans); color: var(--black); background: var(--white); line-height: 1.6; }
+    .page { max-width: 820px; margin: 0 auto; padding: 48px 40px; }
+
+    /* Instructions Banner */
+    .instructions-banner {
+      background: #f0f4ff;
+      border: 1.5px solid #b3c3f0;
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin-bottom: 36px;
+      font-size: 13px;
+      color: #2a3e7a;
+      line-height: 1.6;
+    }
+    .instructions-banner strong { display: block; margin-bottom: 6px; font-size: 14px; }
+    .instructions-banner ul { padding-left: 18px; margin-top: 6px; }
+    .instructions-banner li { margin-bottom: 4px; }
+    @media print { .instructions-banner { display: none; } }
+
+    /* Header */
+    .doc-header {
+      border-bottom: 2px solid var(--black);
+      padding-bottom: 24px;
+      margin-bottom: 36px;
+    }
+    .doc-title { font-family: var(--font-serif); font-size: 26px; margin-bottom: 6px; }
+    .doc-subtitle { font-size: 13px; color: var(--grey-mid); letter-spacing: 0.06em; text-transform: uppercase; }
+    .doc-meta { margin-top: 14px; font-size: 13px; color: var(--grey-mid); }
+
+    /* TOC */
+    .toc {
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 44px;
+      font-size: 13px;
+    }
+    .toc-title { font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-mid); margin-bottom: 10px; }
+    .toc ol { padding-left: 18px; }
+    .toc li { margin-bottom: 6px; color: var(--grey-dark); }
+    .toc li strong { color: var(--black); }
+
+    /* Document Block */
+    .doc-block { margin-bottom: 56px; break-inside: avoid; }
+    .doc-number { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--grey-mid); margin-bottom: 4px; }
+    .doc-block-title { font-family: var(--font-serif); font-size: 22px; color: var(--black); margin-bottom: 8px; }
+    .doc-context {
+      font-size: 13px;
+      color: var(--grey-mid);
+      background: var(--blue-light);
+      border-left: 3px solid var(--blue);
+      padding: 10px 14px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 20px;
+      line-height: 1.65;
+    }
+    .doc-context strong { color: var(--blue); }
+
+    /* Document Shell */
+    .doc-shell {
+      border: 1.5px solid var(--grey-light);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .doc-shell-header {
+      background: #f5f5f5;
+      border-bottom: 1px solid var(--grey-light);
+      padding: 14px 18px;
+      font-size: 13px;
+    }
+    .doc-shell-header .meta-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .doc-shell-header .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .doc-shell-header .meta-label {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      font-weight: 700;
+    }
+    .doc-shell-header .meta-value {
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+    .doc-body { padding: 24px 20px; font-size: 14px; line-height: 1.75; color: var(--grey-dark); }
+
+    /* Placeholder styling */
+    .ph { background: #fff0cc; color: #7a5200; padding: 0 2px; border-radius: 2px; }
+
+    /* Section within doc body */
+    .body-section { margin-bottom: 24px; }
+    .body-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+    .body-para { margin-bottom: 12px; }
+
+    /* Form Fields */
+    .form-field {
+      margin-bottom: 18px;
+    }
+    .form-label {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--black);
+      display: block;
+      margin-bottom: 5px;
+    }
+    .form-line {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid var(--grey-mid);
+      padding: 4px 0;
+      font-size: 14px;
+      color: var(--grey-mid);
+      background: transparent;
+      font-family: var(--font-sans);
+    }
+    .form-area {
+      width: 100%;
+      border: 1px solid var(--grey-light);
+      border-radius: 3px;
+      padding: 8px 10px;
+      font-size: 13px;
+      color: var(--grey-mid);
+      background: #fafafa;
+      font-family: var(--font-sans);
+      resize: vertical;
+      min-height: 52px;
+    }
+    .form-hint { font-size: 11px; color: var(--grey-mid); margin-top: 3px; }
+    .form-group { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+    @media (max-width: 560px) { .form-group { grid-template-columns: 1fr; } }
+
+    /* Agenda / Checklist items */
+    .agenda-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--grey-light);
+      align-items: flex-start;
+    }
+    .agenda-item:last-child { border-bottom: none; }
+    .agenda-time {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 52px;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .agenda-content { flex: 1; }
+    .agenda-title { font-weight: 600; font-size: 14px; color: var(--black); margin-bottom: 3px; }
+    .agenda-detail { font-size: 13px; color: var(--grey-mid); line-height: 1.5; }
+
+    /* Checklist */
+    .checklist { list-style: none; }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--grey-light);
+      font-size: 14px;
+      color: var(--grey-dark);
+      line-height: 1.5;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check-box {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid var(--grey-mid);
+      border-radius: 2px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .check-text { flex: 1; }
+    .check-note { font-size: 12px; color: var(--grey-mid); margin-top: 2px; }
+
+    /* Tips box */
+    .tips-box {
+      background: #f5f5f5;
+      border-radius: 4px;
+      padding: 14px 18px;
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+    .tips-box-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-mid); margin-bottom: 8px; }
+    .tips-box ul { padding-left: 16px; }
+    .tips-box li { margin-bottom: 5px; }
+
+    /* Divider */
+    .section-divider { height: 1px; background: var(--grey-light); margin: 48px 0; }
+
+    /* Footer */
+    .doc-footer {
+      border-top: 1px solid var(--grey-light);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--grey-mid);
+      margin-top: 16px;
+    }
+
+    @page { margin: 1in; size: letter; }
+    @media print {
+      body { font-size: 13px; }
+      .page { padding: 0; max-width: 100%; }
+      .doc-block { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Instructions -->
+  <div class="instructions-banner">
+    <strong>How to use this kit</strong>
+    This kit contains 4 onboarding documents. Each one has <span style="background:#fff0cc;color:#7a5200;padding:1px 4px;border-radius:3px;">[ highlighted placeholders ]</span> — replace all of them with your own details before sharing with clients.
+    <ul>
+      <li>Copy the Welcome Message into Gmail or your email tool and send it immediately after booking.</li>
+      <li>Share the Intake Form link (convert to Google Form) or paste questions into your preferred form tool.</li>
+      <li>Use the Kickoff Call Agenda as a screen-share or printed guide during your first meeting.</li>
+      <li>Send the Expectations Checklist as an attachment or share the link so clients can review before the kickoff call.</li>
+    </ul>
+  </div>
+
+  <!-- Header -->
+  <header class="doc-header">
+    <div class="doc-title">Client Onboarding Mini Kit</div>
+    <div class="doc-subtitle">Revolve Events · Four-Part Onboarding System</div>
+    <div class="doc-meta">4 documents · For wedding planners · Updated <span class="ph">[Month Year]</span></div>
+  </header>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><strong>Welcome Message</strong> — Warm intro email to send immediately after booking is confirmed</li>
+      <li><strong>Client Intake Form</strong> — Comprehensive questionnaire to gather everything you need before the kickoff call</li>
+      <li><strong>Kickoff Call Agenda</strong> — Structured 60-minute first meeting guide with talking points</li>
+      <li><strong>Expectations Checklist</strong> — Scope, communication, and process boundaries for both parties</li>
+    </ol>
+  </div>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <!-- DOC 1: Welcome Message -->
+  <!-- ─────────────────────────────────────────────── -->
+  <div class="doc-block">
+    <div class="doc-number">Document 01 / 04</div>
+    <div class="doc-block-title">Welcome Message</div>
+    <div class="doc-context">
+      <strong>When to send:</strong> Within 24 hours of receiving the signed contract and deposit. This sets the tone for your entire working relationship. It should feel warm, organized, and exciting — not transactional. The goal is to give clients immediate confidence that they made the right decision.
+    </div>
+
+    <div class="doc-shell">
+      <div class="doc-shell-header">
+        <div class="meta-row">
+          <div class="meta-item"><span class="meta-label">To</span><span class="meta-value"><span class="ph">[Client Name(s)]</span></span></div>
+          <div class="meta-item"><span class="meta-label">From</span><span class="meta-value"><span class="ph">[Your Name]</span> · <span class="ph">[Business Name]</span></span></div>
+          <div class="meta-item"><span class="meta-label">Subject</span><span class="meta-value">Welcome to <span class="ph">[Business Name]</span> — let's make this incredible</span></div>
+        </div>
+      </div>
+      <div class="doc-body">
+        <div class="body-para">Hi <span class="ph">[First Name(s)]</span>,</div>
+        <div class="body-para">Welcome — and congratulations! I am so honored that you've chosen <span class="ph">[Business Name]</span> to be part of your <span class="ph">[wedding / event]</span>, and I want you to know right from the start: you are in great hands.</div>
+        <div class="body-para"><span class="ph">[Add a personal line about their specific vision or something that stood out to you from your conversations — e.g., "I keep thinking about the garden ceremony you described — it's going to be absolutely beautiful."]</span></div>
+
+        <div class="body-section">
+          <div class="body-section-label">Here's what happens next</div>
+          <div class="body-para">
+            <strong>Step 1: Complete your intake form</strong><br />
+            I've included a short intake form below. It takes about 10–15 minutes and gives me everything I need to prepare for our kickoff call. Please complete it before our first meeting.<br />
+            → <span class="ph">[Intake form link or: "I'll send this separately within the next 24 hours."]</span>
+          </div>
+          <div class="body-para">
+            <strong>Step 2: Schedule your kickoff call</strong><br />
+            This is where we really dig in — vision, priorities, timeline, and next steps. Please book your call here:<br />
+            → <span class="ph">[Calendly/scheduling link or: "Reply with a few times that work for you this week or next."]</span>
+          </div>
+          <div class="body-para">
+            <strong>Step 3: Review your project folder</strong><br />
+            I've set up a shared folder where we'll store all your documents, vendor contacts, and planning files going forward.<br />
+            → <span class="ph">[Google Drive / Notion / Dropbox link or: "I'll share this during our kickoff call."]</span>
+          </div>
+        </div>
+
+        <div class="body-section">
+          <div class="body-section-label">How to reach me</div>
+          <div class="body-para">
+            The best way to reach me is by email at <span class="ph">[your email]</span>. I respond within <span class="ph">[X business hours]</span> on weekdays. For urgent day-of questions, you can text me at <span class="ph">[phone number]</span>.<br /><br />
+            I also ask that all planning decisions go through email (not social DMs or text) so we keep a clean record of everything — this protects both of us!
+          </div>
+        </div>
+
+        <div class="body-para">I am so excited for this journey with you. Let's make it everything you've imagined and more.</div>
+        <div class="body-para">
+          With excitement,<br />
+          <span class="ph">[Your Name]</span><br />
+          <span class="ph">[Your Title]</span> · <span class="ph">[Business Name]</span><br />
+          <span class="ph">[Email]</span> · <span class="ph">[Phone]</span> · <span class="ph">[Website]</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-box-title">Tips for this message</div>
+      <ul>
+        <li>Include all three action steps (form, call, folder) in one email to reduce back-and-forth.</li>
+        <li>The personal line about their vision is the most important sentence — don't skip it.</li>
+        <li>Setting communication norms early (email only, response times) prevents boundary issues later.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <!-- DOC 2: Client Intake Form -->
+  <!-- ─────────────────────────────────────────────── -->
+  <div class="doc-block">
+    <div class="doc-number">Document 02 / 04</div>
+    <div class="doc-block-title">Client Intake Form</div>
+    <div class="doc-context">
+      <strong>How to use:</strong> Copy these questions into Google Forms, Typeform, Airtable, or any form tool. Send the link in the Welcome Message. Responses should arrive before the kickoff call so you can review them and prepare meaningful questions. This form replaces the first 20 minutes of awkward "getting to know you" conversation.
+    </div>
+
+    <div class="doc-shell">
+      <div class="doc-shell-header">
+        <div class="meta-row">
+          <div class="meta-item"><span class="meta-label">Document Type</span><span class="meta-value">Client Intake Questionnaire</span></div>
+          <div class="meta-item"><span class="meta-label">Est. Time</span><span class="meta-value">10–15 minutes</span></div>
+          <div class="meta-item"><span class="meta-label">Due</span><span class="meta-value">Before kickoff call</span></div>
+        </div>
+      </div>
+      <div class="doc-body">
+
+        <div class="body-section">
+          <div class="body-section-label">Section A · The Basics</div>
+          <div class="form-group">
+            <div class="form-field"><label class="form-label">Full legal name (Person 1)</label><div class="form-line">&nbsp;</div></div>
+            <div class="form-field"><label class="form-label">Full legal name (Person 2)</label><div class="form-line">&nbsp;</div></div>
+          </div>
+          <div class="form-group">
+            <div class="form-field"><label class="form-label">Preferred name(s) / nicknames</label><div class="form-line">&nbsp;</div></div>
+            <div class="form-field"><label class="form-label">Pronouns (optional)</label><div class="form-line">&nbsp;</div></div>
+          </div>
+          <div class="form-group">
+            <div class="form-field"><label class="form-label">Best phone number</label><div class="form-line">&nbsp;</div></div>
+            <div class="form-field"><label class="form-label">Best email address</label><div class="form-line">&nbsp;</div></div>
+          </div>
+          <div class="form-group">
+            <div class="form-field"><label class="form-label">Wedding / event date</label><div class="form-line">&nbsp;</div></div>
+            <div class="form-field"><label class="form-label">Venue name and city</label><div class="form-line">&nbsp;</div></div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Estimated guest count</label>
+            <div class="form-line">&nbsp;</div>
+            <div class="form-hint">Include an approximate range if you're still confirming (e.g., 80–110 guests)</div>
+          </div>
+        </div>
+
+        <div class="body-section">
+          <div class="body-section-label">Section B · Vision &amp; Priorities</div>
+          <div class="form-field">
+            <label class="form-label">How would you describe the overall look and feel you're going for?</label>
+            <div class="form-area" style="min-height:64px;">&nbsp;</div>
+            <div class="form-hint">e.g., "romantic and intimate," "modern and minimal," "lush garden party," "elegant black-tie"</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">List 3–5 words that describe your ideal event atmosphere</label>
+            <div class="form-line">&nbsp;</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">What are the top 3 things that matter most to you on your wedding / event day?</label>
+            <div class="form-area">&nbsp;</div>
+            <div class="form-hint">e.g., "the florals, the food, and the photography"</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Are there any elements you definitely do NOT want?</label>
+            <div class="form-area">&nbsp;</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">What are you most excited about for this day?</label>
+            <div class="form-area">&nbsp;</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">What are you most nervous about or want to make sure goes smoothly?</label>
+            <div class="form-area">&nbsp;</div>
+          </div>
+        </div>
+
+        <div class="body-section">
+          <div class="body-section-label">Section C · Budget &amp; Vendors</div>
+          <div class="form-field">
+            <label class="form-label">What is your total event budget (approximate range)?</label>
+            <div class="form-line">&nbsp;</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Which vendors have you already booked? (list all that apply)</label>
+            <div class="form-area">&nbsp;</div>
+            <div class="form-hint">e.g., Photographer, Caterer, Florist, DJ/Band, Hair &amp; Makeup, Officiant</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Which vendors do you still need help sourcing?</label>
+            <div class="form-area">&nbsp;</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Do you have any existing relationships with preferred vendors or venue vendor lists we should be aware of?</label>
+            <div class="form-area">&nbsp;</div>
+          </div>
+        </div>
+
+        <div class="body-section">
+          <div class="body-section-label">Section D · Logistics &amp; Details</div>
+          <div class="form-field">
+            <label class="form-label">Will there be a rehearsal? If so, what date/time and where?</label>
+            <div class="form-line">&nbsp;</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Any accessibility needs or accommodations for guests we should plan for?</label>
+            <div class="form-area">&nbsp;</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Are there any family dynamics, sensitivities, or special situations we should be aware of?</label>
+            <div class="form-area">&nbsp;</div>
+            <div class="form-hint">This stays confidential. It helps us manage day-of situations gracefully.</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Who is the primary point of contact on the day of the event?</label>
+            <div class="form-line">&nbsp;</div>
+          </div>
+        </div>
+
+        <div class="body-section">
+          <div class="body-section-label">Section E · Working Together</div>
+          <div class="form-field">
+            <label class="form-label">How do you prefer to communicate? (Email / Text / Video Call / All three)</label>
+            <div class="form-line">&nbsp;</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">How involved do you want to be in day-to-day decisions? (Involved in everything / Prefer to delegate / Somewhere in between)</label>
+            <div class="form-line">&nbsp;</div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Is there anything else you'd like us to know going into this process?</label>
+            <div class="form-area">&nbsp;</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-box-title">Tips for this form</div>
+      <ul>
+        <li>Add your branding (logo, colors) when building this in Google Forms or Typeform for a polished first impression.</li>
+        <li>Make Section D and E optional — some clients find them intrusive early on. You can collect this verbally on the kickoff call instead.</li>
+        <li>Review answers 30 minutes before the kickoff call and highlight anything that needs clarification.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <!-- DOC 3: Kickoff Call Agenda -->
+  <!-- ─────────────────────────────────────────────── -->
+  <div class="doc-block">
+    <div class="doc-number">Document 03 / 04</div>
+    <div class="doc-block-title">Kickoff Call Agenda</div>
+    <div class="doc-context">
+      <strong>How to use:</strong> Use this as your internal guide during the call. You can share your screen with the agenda visible so clients feel organized and respected. Adjust time blocks based on your actual call length (this template is built for 60 minutes; scale down proportionally for shorter calls).
+    </div>
+
+    <div class="doc-shell">
+      <div class="doc-shell-header">
+        <div class="meta-row">
+          <div class="meta-item"><span class="meta-label">Client</span><span class="meta-value"><span class="ph">[Client Name(s)]</span></span></div>
+          <div class="meta-item"><span class="meta-label">Date</span><span class="meta-value"><span class="ph">[Call Date]</span></span></div>
+          <div class="meta-item"><span class="meta-label">Format</span><span class="meta-value">60-minute video / phone call</span></div>
+        </div>
+      </div>
+      <div class="doc-body">
+
+        <div class="agenda-item">
+          <div class="agenda-time">0–5 min</div>
+          <div class="agenda-content">
+            <div class="agenda-title">Welcome &amp; Introductions</div>
+            <div class="agenda-detail">Thank them for booking. Share a brief intro about yourself and your background. Ask them to share one thing they're most excited about for the event — starts the energy on a high note.</div>
+          </div>
+        </div>
+
+        <div class="agenda-item">
+          <div class="agenda-time">5–20 min</div>
+          <div class="agenda-content">
+            <div class="agenda-title">Review Intake Form &amp; Fill Gaps</div>
+            <div class="agenda-detail">Walk through the key points from their intake form. Clarify anything that wasn't clear. Ask follow-up questions on vision, priorities, and any concerns they flagged. Let them do most of the talking — listen for the emotion behind their answers.</div>
+          </div>
+        </div>
+
+        <div class="agenda-item">
+          <div class="agenda-time">20–35 min</div>
+          <div class="agenda-content">
+            <div class="agenda-title">Budget &amp; Vendor Status Review</div>
+            <div class="agenda-detail">Confirm current budget and where the biggest unknowns are. Review which vendors are booked and which still need to be sourced. Flag any timeline concerns (e.g., popular vendors book out 12–18 months). Introduce your vendor recommendation process.</div>
+          </div>
+        </div>
+
+        <div class="agenda-item">
+          <div class="agenda-time">35–48 min</div>
+          <div class="agenda-content">
+            <div class="agenda-title">Project Timeline &amp; Milestones</div>
+            <div class="agenda-detail">Walk through the key milestones from today to the event date. Confirm which decisions need to be made first. Clarify your role at each stage. Set expectations around how long vendor sourcing and responses typically take.</div>
+          </div>
+        </div>
+
+        <div class="agenda-item">
+          <div class="agenda-time">48–56 min</div>
+          <div class="agenda-content">
+            <div class="agenda-title">Working Preferences &amp; Communication Norms</div>
+            <div class="agenda-detail">Confirm their preferred communication method and frequency. Walk them through your tools (shared folder, project tracker, etc.). Set response time expectations clearly for both parties. Address any questions about the scope of your service agreement.</div>
+          </div>
+        </div>
+
+        <div class="agenda-item">
+          <div class="agenda-time">56–60 min</div>
+          <div class="agenda-content">
+            <div class="agenda-title">Wrap-Up &amp; Clear Next Actions</div>
+            <div class="agenda-detail">
+              Summarize the top 3 action items coming out of this call:<br />
+              &nbsp;&nbsp;→ <strong>Client will:</strong> <span class="ph">[e.g., confirm venue point of contact, share mood board links]</span><br />
+              &nbsp;&nbsp;→ <strong>You will:</strong> <span class="ph">[e.g., send vendor shortlist by Friday, share project tracker link]</span><br />
+              &nbsp;&nbsp;→ <strong>Next check-in:</strong> <span class="ph">[e.g., 2-week follow-up call, or "I'll email you in 5 business days"]</span><br /><br />
+              End on an enthusiastic note. This is their last impression of the call.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-box-title">Tips for this call</div>
+      <ul>
+        <li>Send the agenda to clients 24 hours before the call — it makes you look organized and helps them prepare too.</li>
+        <li>Always end with 2–3 specific action items. Vague endings ("I'll be in touch!") create confusion and delayed follow-up.</li>
+        <li>Record the call (with permission) so you can reference it when building the project plan later.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ─────────────────────────────────────────────── -->
+  <!-- DOC 4: Expectations Checklist -->
+  <!-- ─────────────────────────────────────────────── -->
+  <div class="doc-block">
+    <div class="doc-number">Document 04 / 04</div>
+    <div class="doc-block-title">Expectations Checklist</div>
+    <div class="doc-context">
+      <strong>When to share:</strong> Send this as an attachment after the kickoff call, or during the call as a walkthrough. This is your scope-setting document — it prevents the most common sources of friction in client relationships by making expectations explicit from day one. Ask clients to review and confirm they've read it.
+    </div>
+
+    <div class="doc-shell">
+      <div class="doc-shell-header">
+        <div class="meta-row">
+          <div class="meta-item"><span class="meta-label">Client</span><span class="meta-value"><span class="ph">[Client Name(s)]</span></span></div>
+          <div class="meta-item"><span class="meta-label">Planner</span><span class="meta-value"><span class="ph">[Your Name]</span></span></div>
+          <div class="meta-item"><span class="meta-label">Event Date</span><span class="meta-value"><span class="ph">[Date]</span></span></div>
+        </div>
+      </div>
+      <div class="doc-body">
+
+        <div class="body-section">
+          <div class="body-section-label">Communication</div>
+          <ul class="checklist">
+            <li><div class="check-box"></div><div class="check-text">All planning communication goes through email (<span class="ph">[your email]</span>) to maintain a clear record.<div class="check-note">Not text, not Instagram DMs, not voicemail — email only for planning decisions.</div></div></li>
+            <li><div class="check-box"></div><div class="check-text">Response time is within <span class="ph">[X business hours/days]</span> on weekdays for both parties.<div class="check-note">Requests sent after 6pm or on weekends will be addressed the next business day.</div></div></li>
+            <li><div class="check-box"></div><div class="check-text">Day-of urgent contact: text <span class="ph">[phone number]</span> — for the event day only.</div></li>
+            <li><div class="check-box"></div><div class="check-text">Major decisions (venue changes, vendor swaps, budget adjustments) require written confirmation from both parties before action is taken.</div></li>
+          </ul>
+        </div>
+
+        <div class="body-section">
+          <div class="body-section-label">Scope of Services</div>
+          <ul class="checklist">
+            <li><div class="check-box"></div><div class="check-text">Services included in your package are listed in your signed service agreement. Anything outside the agreement scope will be quoted separately before work begins.</div></li>
+            <li><div class="check-box"></div><div class="check-text">Vendor payments and contracts are handled directly between you and each vendor — we do not collect or hold vendor funds.<div class="check-note">We will help you track contracts and manage communication, but financial transactions are between you and your vendors.</div></div></li>
+            <li><div class="check-box"></div><div class="check-text">We will source vendor recommendations based on your brief, but the final selection decision is always yours.</div></li>
+            <li><div class="check-box"></div><div class="check-text">Significant scope changes (e.g., adding an event day, expanding guest count by 30%+) may require a scope revision and adjusted fee.</div></li>
+          </ul>
+        </div>
+
+        <div class="body-section">
+          <div class="body-section-label">Timeline &amp; Approvals</div>
+          <ul class="checklist">
+            <li><div class="check-box"></div><div class="check-text">A working timeline will be shared no later than <span class="ph">[X weeks]</span> before the event. Your approval is required within <span class="ph">[X days]</span>.</div></li>
+            <li><div class="check-box"></div><div class="check-text">Vendor contracts should be shared with us within <span class="ph">[X days]</span> of signing so we can add them to the coordination file.</div></li>
+            <li><div class="check-box"></div><div class="check-text">Final guest count must be confirmed no later than <span class="ph">[X weeks]</span> before the event for venue and catering accuracy.</div></li>
+            <li><div class="check-box"></div><div class="check-text">Design and décor decisions should be finalized <span class="ph">[X weeks]</span> prior to the event to allow adequate setup preparation.</div></li>
+          </ul>
+        </div>
+
+        <div class="body-section">
+          <div class="body-section-label">Day-Of Logistics</div>
+          <ul class="checklist">
+            <li><div class="check-box"></div><div class="check-text">We will be your primary point of contact for all vendors on the event day. Avoid directing vendors directly during the event — let us handle it so you can enjoy the day.</div></li>
+            <li><div class="check-box"></div><div class="check-text">A finalized timeline and vendor contact sheet will be distributed to all vendors <span class="ph">[X days]</span> before the event.</div></li>
+            <li><div class="check-box"></div><div class="check-text">We will conduct a venue walkthrough <span class="ph">[X days or weeks]</span> before the event. At least one member of your party is welcome to join.</div></li>
+            <li><div class="check-box"></div><div class="check-text">Guests should be directed to a designated family/wedding party point of contact for logistics questions on the day — not to us directly.</div></li>
+          </ul>
+        </div>
+
+        <div class="body-section">
+          <div class="body-section-label">Cancellations &amp; Changes</div>
+          <ul class="checklist">
+            <li><div class="check-box"></div><div class="check-text">Cancellation and refund terms are outlined in your signed service agreement. Please review them before this call.</div></li>
+            <li><div class="check-box"></div><div class="check-text">Date changes are subject to availability. We cannot guarantee availability for a new date at the same rate.</div></li>
+            <li><div class="check-box"></div><div class="check-text">We strongly recommend purchasing event insurance. This protects both parties in the case of unforeseen circumstances.</div></li>
+          </ul>
+        </div>
+
+        <div class="body-section">
+          <div class="body-section-label">Confirmation</div>
+          <div class="body-para" style="font-size:13px;color:var(--grey-mid);">
+            By proceeding with this engagement, both parties confirm they have read and understand the above expectations. These do not replace the service agreement — they supplement it for clarity and a smoother working relationship.
+          </div>
+          <div class="form-group" style="margin-top:16px;">
+            <div class="form-field">
+              <label class="form-label">Client signature</label>
+              <div class="form-line">&nbsp;</div>
+              <div class="form-hint">Date: _______________</div>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Planner signature</label>
+              <div class="form-line">&nbsp;</div>
+              <div class="form-hint">Date: _______________</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-box-title">Tips for this document</div>
+      <ul>
+        <li>Walk through this verbally on the kickoff call rather than just emailing it — the items stick better and clients feel taken care of.</li>
+        <li>Ask for written confirmation ("please reply 'confirmed' to indicate you've read this") before the kickoff call ends.</li>
+        <li>Revisit sections of this document if a client starts drifting outside scope — it's a neutral reference point, not a confrontation.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="doc-footer">
+    <div>Revolve Events · Client Onboarding Mini Kit</div>
+    <div>For licensed use by purchaser only · Not for redistribution</div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing Sheet Starter — Revolve Events Template</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0f0f0f;
+      --grey-dark: #2b2b2b;
+      --grey-mid: #6b6b6b;
+      --grey-light: #e8e8e8;
+      --white: #ffffff;
+      --accent: #c9a96e;
+      --accent-light: #f7f0e4;
+      --font-serif: Georgia, 'Times New Roman', serif;
+      --font-sans: 'Helvetica Neue', Arial, sans-serif;
+    }
+    html { font-size: 15px; }
+    body {
+      font-family: var(--font-sans);
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ── Page Layout ── */
+    .page {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 40px;
+    }
+
+    /* ── Usage Instructions Banner (screen only) ── */
+    .instructions-banner {
+      background: #f0f4ff;
+      border: 1.5px solid #b3c3f0;
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin-bottom: 36px;
+      font-size: 13px;
+      color: #2a3e7a;
+      line-height: 1.6;
+    }
+    .instructions-banner strong { display: block; margin-bottom: 6px; font-size: 14px; }
+    .instructions-banner ul { padding-left: 18px; margin-top: 6px; }
+    .instructions-banner li { margin-bottom: 4px; }
+    @media print { .instructions-banner { display: none; } }
+
+    /* ── Header ── */
+    .doc-header {
+      border-bottom: 2px solid var(--black);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+    .business-name {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      letter-spacing: 0.04em;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+    .tagline {
+      font-size: 13px;
+      color: var(--grey-mid);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .header-meta {
+      margin-top: 16px;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--grey-mid);
+    }
+    .header-meta span { display: flex; align-items: center; gap: 6px; }
+
+    /* ── Section Title ── */
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      margin-bottom: 16px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--grey-light);
+    }
+
+    /* ── Intro Copy ── */
+    .intro-copy {
+      font-size: 15px;
+      color: var(--grey-dark);
+      line-height: 1.75;
+      margin-bottom: 36px;
+      max-width: 640px;
+    }
+
+    /* ── Pricing Tiers ── */
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 620px) {
+      .tiers-grid { grid-template-columns: 1fr; }
+    }
+    .tier-card {
+      border: 1.5px solid var(--grey-light);
+      border-radius: 4px;
+      padding: 24px 20px;
+      position: relative;
+    }
+    .tier-card.featured {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+    .tier-badge {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--white);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .tier-name {
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      margin-bottom: 8px;
+    }
+    .tier-price {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      color: var(--black);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .tier-price-note {
+      font-size: 12px;
+      color: var(--grey-mid);
+      margin-bottom: 18px;
+    }
+    .tier-desc {
+      font-size: 13px;
+      color: var(--grey-dark);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      min-height: 52px;
+    }
+    .tier-divider {
+      height: 1px;
+      background: var(--grey-light);
+      margin-bottom: 16px;
+    }
+    .tier-includes {
+      list-style: none;
+      font-size: 13px;
+      color: var(--grey-dark);
+    }
+    .tier-includes li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .tier-includes li::before {
+      content: "✓";
+      color: var(--accent);
+      font-weight: bold;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Add-Ons ── */
+    .addons-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+      font-size: 14px;
+    }
+    .addons-table th {
+      text-align: left;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      padding: 8px 12px;
+      border-bottom: 1.5px solid var(--black);
+      font-weight: 600;
+    }
+    .addons-table td {
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--grey-light);
+      vertical-align: top;
+    }
+    .addons-table tr:last-child td { border-bottom: none; }
+    .addons-table td.price {
+      text-align: right;
+      white-space: nowrap;
+      font-weight: 600;
+      color: var(--black);
+    }
+    .addons-table td.desc {
+      color: var(--grey-mid);
+      font-size: 13px;
+    }
+
+    /* ── FAQ ── */
+    .faq-list {
+      margin-bottom: 40px;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--grey-light);
+      padding: 14px 0;
+    }
+    .faq-q {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--black);
+    }
+    .faq-a {
+      font-size: 14px;
+      color: var(--grey-mid);
+      line-height: 1.6;
+    }
+
+    /* ── Policy Footer ── */
+    .policy-footer {
+      background: var(--grey-light);
+      border-radius: 4px;
+      padding: 18px 20px;
+      font-size: 12px;
+      color: var(--grey-mid);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .policy-footer strong { color: var(--black); }
+
+    /* ── Doc Footer ── */
+    .doc-footer {
+      border-top: 1px solid var(--grey-light);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--grey-mid);
+    }
+
+    /* ── Mobile variant hint ── */
+    .mobile-note {
+      font-size: 12px;
+      color: var(--grey-mid);
+      border: 1px dashed var(--grey-light);
+      border-radius: 4px;
+      padding: 12px 16px;
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    /* ── Print styles ── */
+    @page { margin: 1in; size: letter; }
+    @media print {
+      body { font-size: 13px; }
+      .page { padding: 0; max-width: 100%; }
+      .tiers-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Instructions (screen only) -->
+  <div class="instructions-banner">
+    <strong>How to use this template</strong>
+    Replace all placeholder text inside <span style="background:#dce8ff;padding:1px 4px;border-radius:3px;">[ square brackets ]</span> with your own information. When ready, use <strong>File → Print → Save as PDF</strong> to export your finished pricing sheet.
+    <ul>
+      <li>Customize your three service tiers — rename them, adjust pricing, and tailor the included services to your packages.</li>
+      <li>Add or remove add-on rows in the Add-Ons section to match your actual offerings.</li>
+      <li>Edit the FAQ answers to reflect your real booking and payment policies.</li>
+      <li>Update the footer with your contact details and website.</li>
+    </ul>
+  </div>
+
+  <!-- Header -->
+  <header class="doc-header">
+    <div class="business-name">[Your Business Name]</div>
+    <div class="tagline">[Your Title / Specialty] &nbsp;·&nbsp; [City, State]</div>
+    <div class="header-meta">
+      <span>✉ [your@email.com]</span>
+      <span>☎ [(000) 000-0000]</span>
+      <span>🌐 [yourwebsite.com]</span>
+      <span>📅 Pricing valid through [Month Year]</span>
+    </div>
+  </header>
+
+  <!-- Intro -->
+  <p class="intro-copy">
+    Thank you for your interest in working with [Your Business Name]. Below you'll find a clear overview of our service packages and pricing. Every package is designed to give you [your core value proposition — e.g., "a seamless, stress-free planning experience from first call to final send-off."]
+  </p>
+
+  <!-- Tiers -->
+  <div class="section-label">Service Packages</div>
+  <div class="tiers-grid">
+
+    <div class="tier-card">
+      <div class="tier-name">Essential</div>
+      <div class="tier-price">$[X,XXX]</div>
+      <div class="tier-price-note">Starting investment</div>
+      <div class="tier-desc">
+        Ideal for couples who want professional support for the most critical parts of their day without full planning coverage.
+      </div>
+      <div class="tier-divider"></div>
+      <ul class="tier-includes">
+        <li>Up to [X] hours of day-of coordination</li>
+        <li>One pre-event walkthrough</li>
+        <li>Vendor contact and timeline sheet</li>
+        <li>Ceremony and reception management</li>
+        <li>Email support up to [X] weeks prior</li>
+      </ul>
+    </div>
+
+    <div class="tier-card featured">
+      <div class="tier-badge">Most Popular</div>
+      <div class="tier-name">Premium</div>
+      <div class="tier-price">$[X,XXX]</div>
+      <div class="tier-price-note">Starting investment</div>
+      <div class="tier-desc">
+        Full-service planning with personalized attention, vendor management, and design direction from first consultation to final farewell.
+      </div>
+      <div class="tier-divider"></div>
+      <ul class="tier-includes">
+        <li>Everything in Essential, plus:</li>
+        <li>Full vendor sourcing and management</li>
+        <li>Design concept and mood board</li>
+        <li>Budget tracking and management</li>
+        <li>Unlimited email and phone support</li>
+        <li>[X] planning meetings included</li>
+      </ul>
+    </div>
+
+    <div class="tier-card">
+      <div class="tier-name">Luxury</div>
+      <div class="tier-price">$[X,XXX]+</div>
+      <div class="tier-price-note">Custom quote</div>
+      <div class="tier-desc">
+        White-glove, concierge-level service for couples who want every detail handled — from destination logistics to luxury vendor sourcing.
+      </div>
+      <div class="tier-divider"></div>
+      <ul class="tier-includes">
+        <li>Everything in Premium, plus:</li>
+        <li>Destination wedding support</li>
+        <li>VIP vendor relationships and perks</li>
+        <li>Dedicated assistant day-of</li>
+        <li>Custom welcome bags / gifting</li>
+        <li>Priority response within 2 hours</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Add-Ons -->
+  <div class="section-label">Add-On Services</div>
+  <table class="addons-table">
+    <thead>
+      <tr>
+        <th style="width:38%">Service</th>
+        <th>Description</th>
+        <th class="price">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Rehearsal Dinner Coordination</strong></td>
+        <td class="desc">Full logistics and timeline management for your rehearsal dinner event.</td>
+        <td class="price">$[XXX]</td>
+      </tr>
+      <tr>
+        <td><strong>Welcome Event / Morning-After Brunch</strong></td>
+        <td class="desc">Add-on day coordination for pre- or post-wedding events.</td>
+        <td class="price">$[XXX]</td>
+      </tr>
+      <tr>
+        <td><strong>Engagement Party Planning</strong></td>
+        <td class="desc">Vendor sourcing, timeline, and on-site management for your engagement celebration.</td>
+        <td class="price">$[XXX]</td>
+      </tr>
+      <tr>
+        <td><strong>Additional Planning Hours</strong></td>
+        <td class="desc">Block of [X] additional hours of planning support beyond your package.</td>
+        <td class="price">$[XXX]</td>
+      </tr>
+      <tr>
+        <td><strong>Extra Lead Coordinator</strong></td>
+        <td class="desc">Second lead coordinator for larger guest counts or multi-venue days.</td>
+        <td class="price">$[XXX]</td>
+      </tr>
+      <tr>
+        <td><strong>Travel & Accommodation (Destination)</strong></td>
+        <td class="desc">Flat-rate travel fee for events outside a [XX]-mile radius.</td>
+        <td class="price">Quoted per event</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Mobile Variant Note -->
+  <div class="mobile-note">
+    <strong>Sharing this digitally?</strong> This document is optimized for both print and screen. For a mobile-first presentation, reduce the three-column tier layout to a single column — simply adjust the column widths on whichever platform you use (Canva, Google Slides, etc.). Font sizes of 14–16px are recommended for mobile viewers.
+  </div>
+
+  <!-- FAQ -->
+  <div class="section-label">Common Questions</div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">How do I secure my date?</div>
+      <div class="faq-a">A signed contract and [XX]% retainer are required to hold your date. We accept [payment methods you accept]. Retainers are non-refundable but fully applicable to your total balance.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">When is the remaining balance due?</div>
+      <div class="faq-a">The remaining balance is due [X] days / weeks prior to your event date. We will send a reminder invoice in advance and are happy to discuss a payment plan if needed.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Do your packages include vendor payments?</div>
+      <div class="faq-a">Our fees cover our time and services only. All vendor contracts and payments are handled directly between you and each vendor. We will help you manage timelines and communications throughout.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What is your travel policy?</div>
+      <div class="faq-a">Travel within [XX] miles of [Your City] is included at no extra charge. Events beyond that range are subject to a travel fee — please inquire for a custom quote.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I customize a package?</div>
+      <div class="faq-a">Absolutely. Every couple's needs are different. Reach out for a complimentary consultation and we will build a scope that fits your vision and budget.</div>
+    </div>
+  </div>
+
+  <!-- Policy Footer -->
+  <div class="policy-footer">
+    <strong>Booking & Cancellation Policy</strong><br />
+    All packages require a signed service agreement and retainer to confirm. Retainers are non-refundable. Cancellations received more than [X] days prior to the event will be released from the remaining balance. Cancellations within [X] days of the event are subject to [XX]% of the remaining balance. We strongly recommend event insurance for added peace of mind.
+    <br /><br />
+    Pricing is subject to change. Rates shown reflect the [current season/year]. All quotes are valid for [30/60] days from the date of issue.
+  </div>
+
+  <!-- Doc Footer -->
+  <footer class="doc-footer">
+    <div>[Your Business Name] &nbsp;·&nbsp; [yourwebsite.com]</div>
+    <div>Prepared for: [Client Name] &nbsp;·&nbsp; [Date]</div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -6,9 +6,7 @@ import { createCheckoutNonce } from "@/lib/product-download";
 export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
-  return products
-    .filter((p) => p.whopPlanId !== null || p.downloadFile !== null)
-    .map((p) => ({ slug: p.slug }));
+  return products.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata() {
@@ -91,9 +89,13 @@ export default async function ProductCheckoutPage({
     purchaseUrl = `https://whop.com/checkout/${product.whopPlanId}/`;
   }
 
-  // No checkout method configured
+  // No checkout method configured — send to product page with a contact prompt
   else {
-    notFound();
+    const subject = encodeURIComponent(`Purchase request: ${product.name}`);
+    const body = encodeURIComponent(
+      `Hi,\n\nI'd like to purchase "${product.name}" (${product.priceLabel}).\nPlease send me the checkout link.\n\nThanks!`
+    );
+    purchaseUrl = `mailto:revolveevents@protonmail.com?subject=${subject}&body=${body}`;
   }
 
   // Referrer-stripping redirect — same privacy pattern as /checkout/whop.
